@@ -1,0 +1,9 @@
+{
+  "date": "2026-01-01",
+  "draft": true,
+  "tags": {"en": ["Example tag"], "zh": ["示例标签"]},
+  "summary": {
+    "en": "One or two sentences shown in the research list on the home page.",
+    "zh": "显示在主页研究列表里的一两句简介。"
+  }
+}

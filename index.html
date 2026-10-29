@@ -1,48 +1,37 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>chip-ai-agent</title>
-<meta name="description" content="chip-ai-agent：研究让 AI agent 在真实的 EDA 工具里完成芯片与电路设计。">
-<link rel="icon" href="assets/logo.svg">
-<link rel="stylesheet" href="assets/style.css">
+<title>chip-ai-agent · AI agents for chip design</title>
+<meta name="description" content="We build AI agents that work inside real chip and hardware design tools.">
+<link rel="icon" href="./assets/logo.svg">
+<link rel="stylesheet" href="./assets/style.css">
 </head>
 <body>
 <header class="topbar"><div class="wrap">
-  <a class="brand" href="./"><img class="brand-mark" src="assets/logo.svg" alt="">chip-ai-agent</a>
-  <nav class="nav"><a href="#research">研究</a><a href="#about">关于</a><a href="https://github.com/chip-ai-agent">GitHub</a></nav>
+  <a class="brand" href="./"><img class="brand-mark" src="./assets/logo.svg" alt="">chip-ai-agent</a>
+  <nav class="nav">
+    <a href="./#research">Research</a>
+    <a href="./#about">About</a>
+    <a href="https://github.com/chip-ai-agent">GitHub</a>
+    <a class="lang" href="./zh/">中文</a>
+  </nav>
 </div></header>
-
 <main class="wrap">
   <div class="hero home">
-    <h1>让 AI agent<br>设计芯片与电路</h1>
-    <p class="lead">我们研究如何让智能体在真实的 EDA 工具里完成硬件设计任务：每一步操作都由工业级引擎执行，由设计规则检查评判。</p>
+    <h1>AI agents for chip design</h1>
+    <p class="lead">We build AI agents that work inside real chip and hardware design tools.</p>
   </div>
-
   <section id="research">
-    <h2 class="section-title">研究</h2>
-    <ul class="posts">
-      <li>
-        <a href="pcbworld/">
-          <span class="post-date">2026.10</span>
-          <span class="post-body">
-            <span class="post-title">复现 PCBWorld：在 KiCad 里训练 PCB 布线智能体</span>
-            <span class="post-desc">用 4 个 seed 复现 KDD 2026 的 PCBWorld 基准，覆盖交互环境、数据构建、模型、训练与评测。三种 RL 方法在小板上与论文一致，PPO terminal 需改用 γ = 1 才能训出来；在大板上三种方法都布不通。</span>
-            <span class="post-tags"><span>PCB 布线</span><span>强化学习</span><span>复现</span></span>
-          </span>
-        </a>
-      </li>
-    </ul>
+    <h2 class="section-title">Research</h2>
+    <p class="empty">Our first posts are on the way.</p>
   </section>
-
   <section id="about">
-    <h2 class="section-title">关于</h2>
-    <p class="about">chip-ai-agent 关注 AI for chip：把智能体接入真实的设计工具链，在布线、布局等硬件设计任务上做研究，并公开我们的实验记录与复现结果。</p>
-    <p class="about"><a href="https://github.com/chip-ai-agent">github.com/chip-ai-agent</a></p>
+    <h2 class="section-title">About</h2>
+    <p class="about">chip-ai-agent studies AI for chip design. More about us soon.</p>
   </section>
 </main>
-
 <footer><div class="wrap">© 2026 chip-ai-agent</div></footer>
 </body>
 </html>

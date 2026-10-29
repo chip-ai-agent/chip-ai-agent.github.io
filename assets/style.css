@@ -137,3 +137,9 @@ footer { border-top: 1px solid var(--line); color: var(--muted); font-size: 13px
   .hero.home h1 { font-size: 36px; }
   .posts a { grid-template-columns: 1fr; gap: 6px; }
 }
+
+/* framework bits */
+.nav .lang { border: 1px solid var(--line); border-radius: 999px; padding: 0 10px; color: var(--ink); }
+.empty { color: var(--muted); padding: 20px 0; border-top: 1px solid var(--line); margin: 0; }
+.back { margin: 32px 0 0; font-size: 14px; }
+.doc .post-tags { margin: 0 0 24px; }

@@ -1,0 +1,31 @@
+{
+  "name": "chip-ai-agent",
+  "github": "https://github.com/chip-ai-agent",
+  "year": 2026,
+  "en": {
+    "html_lang": "en",
+    "title": "AI agents for chip design",
+    "intro": "We build AI agents that work inside real chip and hardware design tools.",
+    "nav_research": "Research",
+    "nav_about": "About",
+    "research_heading": "Research",
+    "research_empty": "Our first posts are on the way.",
+    "about_heading": "About",
+    "about": "chip-ai-agent studies AI for chip design. More about us soon.",
+    "back": "← All research",
+    "switch_label": "中文"
+  },
+  "zh": {
+    "html_lang": "zh-CN",
+    "title": "面向芯片设计的 AI agent",
+    "intro": "我们研究能在真实芯片与硬件设计工具里工作的 AI agent。",
+    "nav_research": "研究",
+    "nav_about": "关于",
+    "research_heading": "研究",
+    "research_empty": "第一批文章即将发布。",
+    "about_heading": "关于",
+    "about": "chip-ai-agent 关注 AI for chip。更多介绍即将更新。",
+    "back": "← 全部研究",
+    "switch_label": "English"
+  }
+}
