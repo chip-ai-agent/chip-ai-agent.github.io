@@ -308,7 +308,6 @@ D3-C 上每块板开局有 79–210 条待连的飞线，256 步上限下 100% �
 
 **引擎已经支持拆线**：C++ 层有 `delete_routing_of_nets`（删整个 net 的走线和过孔）、`delete_track_near`、`undo_last_segment`、`start_drag` / `fix_drag`、`lock_net`，目前只在 reset 时用来清板。加一个 `rip_up(net_id)` 动作，工作量主要在 Python 层：注册动作、写掩码规则、把被拆的 net 放回可布集合、防止反复拆装刷分。
 
-**可做的方向**：在这个环境上搭 global → detailed → rip-up & reroute 三段式流程。global 层规划通道、层和布线顺序；detailed 层复用现有 RL 策略（它在小范围布线上已经很强，D3-A CP 0.87）；rip-up 层用上面的删线接口。D3 的 medium + hard 训练集共 578 块板，可以用来在大板上训练或评测。
 
 ## 附录：复现时踩过的坑
 

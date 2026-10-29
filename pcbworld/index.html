@@ -11,7 +11,7 @@
 <body>
 <header class="topbar"><div class="wrap">
   <a class="brand" href="../"><img class="brand-mark" src="../assets/logo.svg" alt="">chip-ai-agent</a>
-  <nav class="nav"><a href="../">主页</a><a class="on" href="./">PCBWorld 复现</a><a href="https://github.com/chip-ai-agent">GitHub</a></nav>
+  <nav class="nav"><a href="../#research">研究</a><a href="../#about">关于</a><a href="https://github.com/chip-ai-agent">GitHub</a></nav>
 </div></header>
 <main class="wrap doc">
 <h1 id="pcbworld">PCBWorld 复现报告：环境、数据、训练与评测</h1>
@@ -749,7 +749,6 @@
 <li><strong>PPO terminal 的原配方在开源代码上训不出来</strong>，需要 γ = 1。这是复现报告里必须注明的差异。</li>
 </ul>
 <p><strong>引擎已经支持拆线</strong>：C++ 层有 <code>delete_routing_of_nets</code>（删整个 net 的走线和过孔）、<code>delete_track_near</code>、<code>undo_last_segment</code>、<code>start_drag</code> / <code>fix_drag</code>、<code>lock_net</code>，目前只在 reset 时用来清板。加一个 <code>rip_up(net_id)</code> 动作，工作量主要在 Python 层：注册动作、写掩码规则、把被拆的 net 放回可布集合、防止反复拆装刷分。</p>
-<p><strong>可做的方向</strong>：在这个环境上搭 global → detailed → rip-up &amp; reroute 三段式流程。global 层规划通道、层和布线顺序；detailed 层复用现有 RL 策略（它在小范围布线上已经很强，D3-A CP 0.87）；rip-up 层用上面的删线接口。D3 的 medium + hard 训练集共 578 块板，可以用来在大板上训练或评测。</p>
 <h2 id="_19">附录：复现时踩过的坑</h2>
 <p>上游代码：<a href="https://github.com/LGAI-Research/PCBWorld">LGAI-Research/PCBWorld</a>（v1.0.1，KiCad 9.0.8）。</p>
 <ul>

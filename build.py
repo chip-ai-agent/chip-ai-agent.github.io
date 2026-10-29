@@ -103,7 +103,7 @@ PAGE = """<!doctype html>
 <body>
 <header class="topbar"><div class="wrap">
   <a class="brand" href="../"><img class="brand-mark" src="../assets/logo.svg" alt="">chip-ai-agent</a>
-  <nav class="nav"><a href="../">主页</a><a class="on" href="./">PCBWorld 复现</a><a href="https://github.com/chip-ai-agent">GitHub</a></nav>
+  <nav class="nav"><a href="../#research">研究</a><a href="../#about">关于</a><a href="https://github.com/chip-ai-agent">GitHub</a></nav>
 </div></header>
 <main class="wrap doc">
 {body}
