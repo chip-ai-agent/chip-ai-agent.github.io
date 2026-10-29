@@ -4,8 +4,9 @@
   --ink: #1b1d22;
   --muted: #5d636e;
   --line: #e3e3de;
-  --accent: #1f6feb;
-  --accent-soft: rgba(31, 111, 235, 0.10);
+  --accent: #2f5bff;
+  --accent-soft: rgba(47, 91, 255, 0.10);
+  --logo-accent: #2f5bff;
   --good: #1a7f37;
   --bad: #c0362c;
   --code-bg: #f2f2ee;
@@ -20,8 +21,9 @@
     --ink: #e7e9ee;
     --muted: #9aa1ad;
     --line: #2a2f38;
-    --accent: #5b9dff;
-    --accent-soft: rgba(91, 157, 255, 0.14);
+    --accent: #7d97ff;
+    --accent-soft: rgba(125, 151, 255, 0.14);
+    --logo-accent: #5a7bff;
     --good: #4cc26b;
     --bad: #ff7a6e;
     --code-bg: #1d2129;
@@ -51,7 +53,7 @@ a:hover { text-decoration: underline; }
 .topbar { border-bottom: 1px solid var(--line); background: var(--surface); }
 .topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 56px; gap: 16px; }
 .brand { font-weight: 700; color: var(--ink); letter-spacing: 0.2px; display: flex; align-items: center; gap: 10px; }
-.brand-mark { width: 22px; height: 22px; }
+.brand-mark { width: 26px; height: 26px; color: var(--ink); flex: none; }
 .nav { display: flex; gap: 20px; font-size: 15px; }
 .nav a { color: var(--muted); }
 .nav a:hover, .nav a.on { color: var(--ink); text-decoration: none; }

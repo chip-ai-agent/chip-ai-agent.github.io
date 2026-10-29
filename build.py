@@ -29,6 +29,18 @@ LANGS = ("en", "zh")
 PREFIX = {"en": "", "zh": "zh/"}  # URL prefix of each language, relative to the site root
 
 
+LOGO = (
+    '<svg class="brand-mark" viewBox="0 0 240 240" aria-hidden="true">'
+    '<g stroke="currentColor" stroke-width="12" stroke-linecap="round" fill="none">'
+    '<rect x="56" y="56" width="128" height="128" rx="26" stroke-width="14"/>'
+    '<path d="M94 56V26M146 56V26M94 184v30M146 184v30M56 94H26M56 146H26M184 94h30M184 146h30"/>'
+    '</g>'
+    '<rect x="92" y="98" width="18" height="44" rx="9" fill="var(--logo-accent)"/>'
+    '<rect x="130" y="98" width="18" height="44" rx="9" fill="var(--logo-accent)"/>'
+    '</svg>'
+)
+
+
 def rel(depth: int) -> str:
     """Relative path from a page `depth` directories deep back to the site root."""
     return "../" * depth or "./"
@@ -49,7 +61,7 @@ def page(site: dict, lang: str, depth: int, other_url: str, title: str, desc: st
 </head>
 <body>
 <header class="topbar"><div class="wrap">
-  <a class="brand" href="{home}"><img class="brand-mark" src="{root}assets/logo.svg" alt="">{site['name']}</a>
+  <a class="brand" href="{home}">{LOGO}{site['name']}</a>
   <nav class="nav">
     <a href="{home}#research">{t['nav_research']}</a>
     <a href="{home}#about">{t['nav_about']}</a>
