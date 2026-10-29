@@ -49,12 +49,13 @@ a:hover { text-decoration: underline; }
 
 .wrap { max-width: 880px; margin: 0 auto; padding: 0 20px; }
 
-/* top bar */
-.topbar { border-bottom: 1px solid var(--line); background: var(--surface); }
-.topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 56px; gap: 16px; }
-.brand { font-weight: 700; color: var(--ink); letter-spacing: 0.2px; display: flex; align-items: center; gap: 10px; }
-.brand-mark { width: 26px; height: 26px; color: var(--ink); flex: none; }
-.nav { display: flex; gap: 20px; font-size: 15px; }
+/* top bar — sized against Sakana (80px), Anthropic (84px), Together (60px), Thinking Machines (54px) */
+.topbar { background: var(--bg); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 24px; }
+.brand { font-weight: 650; font-size: 18px; letter-spacing: -0.2px; color: var(--ink); display: flex; align-items: center; gap: 10px; }
+.brand:hover { text-decoration: none; }
+.brand-mark { width: 32px; height: 32px; color: var(--ink); flex: none; }
+.nav { display: flex; align-items: center; gap: 28px; font-size: 15px; }
 .nav a { color: var(--muted); }
 .nav a:hover, .nav a.on { color: var(--ink); text-decoration: none; }
 
@@ -114,7 +115,11 @@ footer { border-top: 1px solid var(--line); color: var(--muted); font-size: 13px
   .hero h1 { font-size: 30px; }
   .hero p.lead { font-size: 17px; }
   .doc h1 { font-size: 27px; }
-  .nav { gap: 14px; font-size: 14px; }
+  .topbar .wrap { height: 60px; gap: 12px; }
+  .brand { font-size: 16px; gap: 8px; }
+  .brand-mark { width: 28px; height: 28px; }
+  .nav { gap: 16px; font-size: 14px; }
+  .nav .gh { display: none; }
 }
 
 /* home: lab-style landing */
@@ -141,7 +146,9 @@ footer { border-top: 1px solid var(--line); color: var(--muted); font-size: 13px
 }
 
 /* framework bits */
-.nav .lang { border: 1px solid var(--line); border-radius: 999px; padding: 0 10px; color: var(--ink); }
+.nav .lang { border: 1px solid var(--line); border-radius: 999px; padding: 2px 12px; color: var(--ink); line-height: 1.5; }
+footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+footer a { color: var(--muted); }
 .empty { color: var(--muted); padding: 20px 0; border-top: 1px solid var(--line); margin: 0; }
 .back { margin: 32px 0 0; font-size: 14px; }
 .doc .post-tags { margin: 0 0 24px; }

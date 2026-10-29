@@ -65,12 +65,12 @@ def page(site: dict, lang: str, depth: int, other_url: str, title: str, desc: st
   <nav class="nav">
     <a href="{home}#research">{t['nav_research']}</a>
     <a href="{home}#about">{t['nav_about']}</a>
-    <a href="{site['github']}">GitHub</a>
+    <a class="gh" href="{site['github']}">GitHub</a>
     <a class="lang" href="{other_url}">{t['switch_label']}</a>
   </nav>
 </div></header>
 {body}
-<footer><div class="wrap">© {site['year']} {site['name']}</div></footer>
+<footer><div class="wrap"><span>© {site['year']} {site['name']}</span><a href="{site['github']}">GitHub</a></div></footer>
 </body>
 </html>
 """
