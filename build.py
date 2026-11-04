@@ -76,7 +76,9 @@ def load_posts() -> list[dict]:
         meta = json.loads(meta_file.read_text())
         if meta.get("draft"):
             continue
-        post = {"slug": d.name, "date": meta["date"], "tags": meta.get("tags", {}), "summary": meta.get("summary", {})}
+        post = {"slug": d.name, "date": meta["date"], "tags": meta.get("tags", {}), "summary": meta.get("summary", {}),
+                "authors": meta.get("authors", []), "affiliations": meta.get("affiliations", []),
+                "author_note": meta.get("author_note", {}), "links": meta.get("links", [])}
         for lang in LANGS:
             src = (d / f"{lang}.md").read_text()
             m = re.match(r"#\s+(.+)\n", src)
@@ -125,15 +127,33 @@ def build_post(site: dict, post: dict, lang: str) -> None:
     depth = 3 if lang == "zh" else 2
     other_lang = "zh" if lang == "en" else "en"
     other = rel(depth) + PREFIX[other_lang] + f"research/{post['slug']}/"
-    content = markdown.markdown(post[lang]["body"], extensions=["tables", "fenced_code", "toc"])
+    md = markdown.Markdown(extensions=["tables", "fenced_code", "toc"])
+    content = md.convert(post[lang]["body"])
     content = content.replace("<table>", '<div class="table-scroll"><table>').replace("</table>", "</table></div>")
     tags = "".join(f"<span>{html.escape(x)}</span>" for x in post["tags"].get(lang, []))
-    body = f"""<main class="wrap doc">
+    authors = " · ".join(html.escape(author) for author in post["authors"])
+    affiliations = " · ".join(html.escape(name) for name in post["affiliations"])
+    byline = f'<p class="research-authors">{authors}</p><p class="research-affiliations">{affiliations}</p>' if authors else ""
+    author_note = html.escape(post['author_note'].get(lang, ''))
+    links = "".join(f'<a href="{html.escape(link["url"], quote=True)}">{html.escape(link["label"][lang])}<span aria-hidden="true"> ↗</span></a>' for link in post['links'])
+    toc_label = 'On this page' if lang == 'en' else '本文内容'
+    body = f"""<main class="wrap doc research-article">
   <p class="back"><a href="{rel(depth)}{PREFIX[lang]}#research">{t['back']}</a></p>
+  <header class="research-header">
+  <p class="eyebrow">{('Research notes' if lang == 'en' else '研究笔记')}</p>
   <h1>{html.escape(post[lang]['title'])}</h1>
-  <p class="meta">{post['date']}</p>
+  {byline}
+  <p class="author-note">{author_note}</p>
+  <p class="meta"><time datetime="{post['date']}">{post['date']}</time></p>
   <div class="post-tags">{tags}</div>
+  <div class="research-links">{links}</div>
+  </header>
+  <div class="article-layout">
+  <aside class="article-toc" aria-label="{toc_label}"><p>{toc_label}</p>{md.toc}</aside>
+  <article class="article-body">
   {content}
+  </article>
+  </div>
 </main>"""
     out = ROOT / PREFIX[lang] / "research" / post["slug"] / "index.html"
     out.parent.mkdir(parents=True, exist_ok=True)
