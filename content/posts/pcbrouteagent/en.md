@@ -212,5 +212,3 @@ This manuscript has been submitted to arXiv and is awaiting announcement. You ca
 - [PCBRouteAgent code](https://github.com/chip-ai-agent/PCBRouteAgent)
 - [PCBWorld: A Benchmark Environment for Engine-Grounded PCB Design Automation](https://arxiv.org/abs/2607.05915)
 - [KiCad documentation](https://docs.kicad.org/)
-
-This blog post summarizes our current manuscript.
