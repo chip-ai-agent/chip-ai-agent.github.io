@@ -8,7 +8,7 @@ A printed circuit board connects electronic components through copper traces. Af
 
 The input to our task is a KiCad board with fixed component placement, a netlist, and design rules, with the target routes removed. The output is a routed board in the same native format. We judge success using the official PCBWorld evaluator: all required connections must be complete, and KiCad must report zero error-level design-rule violations. A plausible-looking trace is not enough.
 
-<figure class="reserved-figure" aria-label="Task illustration reserved for a future update"><div class="figure-space"><span class="slot-index">01 / THE TASK</span><strong>From an unrouted board to a routed design</strong><span>Task illustration coming soon</span></div><figcaption>Task figure reserved: board input, routing constraints, and the evaluated output.</figcaption></figure>
+<figure class="article-figure"><a class="figure-link" href="/assets/research/pcbrouteagent/task.png" aria-label="View full size"><img src="/assets/research/pcbrouteagent/task.png" alt="PCB routing input with fixed components and required connections, and output with copper traces and a via." width="2400" height="1800" loading="lazy" decoding="async"></a><figcaption><span>PCB routing connects required pads with copper traces and vias while satisfying design rules.</span><a href="/assets/research/pcbrouteagent/task.png">View full size ↗</a></figcaption></figure>
 
 ## Why separate planning from execution?
 
@@ -26,7 +26,7 @@ PCBRouteAgent has three functional components. An execution controller manages r
 
 The distinction matters: the language model does not need to micromanage every routing step. The native engine handles geometry, while the model revisits decisions that require a broader view of the board.
 
-<figure class="reserved-figure method-slot" aria-label="Method diagram reserved for a future update"><div class="figure-space"><span class="slot-index">02 / THE METHOD</span><strong>Global plan → native execution → feedback</strong><span>Architecture figure coming soon</span></div><figcaption>Method figure reserved: the planner, executor, feedback loop, and execution controller.</figcaption></figure>
+<figure class="article-figure"><a class="figure-link" href="/assets/research/pcbrouteagent/framework.png" aria-label="View full size"><img src="/assets/research/pcbrouteagent/framework.png" alt="Overview of PCBRouteAgent, showing global routing planning, guided execution, and feedback-driven replanning." width="1448" height="1086" loading="lazy" decoding="async"></a><figcaption><span>Overview of PCBRouteAgent.</span><a href="/assets/research/pcbrouteagent/framework.png">View full size ↗</a></figcaption></figure>
 
 ## Does the framework complete more boards?
 
@@ -77,4 +77,4 @@ These results point toward a useful division of work: let a native router handle
 - [PCBWorld: A Benchmark Environment for Engine-Grounded PCB Design Automation](https://arxiv.org/abs/2607.05915)
 - [KiCad documentation](https://docs.kicad.org/)
 
-This research note summarizes our current manuscript. The task illustration, architecture diagram, and qualitative case studies will be added as they become available.
+This research note summarizes our current manuscript. The architecture illustration is preliminary and will be updated; qualitative case studies will be added as they become available.

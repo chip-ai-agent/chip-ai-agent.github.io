@@ -8,7 +8,7 @@
 
 在我们的任务中，输入是已经固定元件布局、网表和设计规则，并移除目标布线的 KiCad 电路板；输出是相同原生格式的已布线电路板。最终由 PCBWorld 官方评估器判定：所有必需连接均已完成，并且 KiCad 检查不到错误级设计规则违规，整块板才算通过。画出一条看起来合理的线，还不等于成功。
 
-<figure class="reserved-figure" aria-label="预留任务示意图位置"><div class="figure-space"><span class="slot-index">01 / 任务</span><strong>从待布线电路板到完成布线的设计</strong><span>任务示意图后续补充</span></div><figcaption>任务图预留：输入电路板、布线约束，以及经过评估的输出设计。</figcaption></figure>
+<figure class="article-figure"><a class="figure-link" href="/assets/research/pcbrouteagent/task.png" aria-label="查看原图"><img src="/assets/research/pcbrouteagent/task.png" alt="PCB 布线任务：固定元件及待连接目标的输入，与包含铜线和过孔的输出。" width="2400" height="1800" loading="lazy" decoding="async"></a><figcaption><span>PCB 布线通过铜线和过孔连接目标焊盘，并满足设计规则。</span><a href="/assets/research/pcbrouteagent/task.png">查看原图 ↗</a></figcaption></figure>
 
 ## 为什么要把规划和执行分开？
 
@@ -26,7 +26,7 @@ PCBRouteAgent 包含三个功能组件，由执行控制器管理任务、检查
 
 这样分工的意义在于：模型不必细管每一步走线。原生引擎负责几何执行，模型则在需要整板视角时重新审视规划决策。
 
-<figure class="reserved-figure method-slot" aria-label="预留方法架构图位置"><div class="figure-space"><span class="slot-index">02 / 方法</span><strong>全局规划 → 原生执行 → 反馈重规划</strong><span>方法架构图后续补充</span></div><figcaption>方法图预留：规划器、执行器、反馈回路，以及执行控制器之间的关系。</figcaption></figure>
+<figure class="article-figure"><a class="figure-link" href="/assets/research/pcbrouteagent/framework.png" aria-label="查看原图"><img src="/assets/research/pcbrouteagent/framework.png" alt="PCBRouteAgent 框架概览，展示全局布线规划、引导执行与反馈重规划。" width="1448" height="1086" loading="lazy" decoding="async"></a><figcaption><span>PCBRouteAgent 框架概览。</span><a href="/assets/research/pcbrouteagent/framework.png">查看原图 ↗</a></figcaption></figure>
 
 ## 这个框架能完成更多电路板吗？
 
@@ -77,4 +77,4 @@ PCBRouteAgent 包含三个功能组件，由执行控制器管理任务、检查
 - [PCBWorld: A Benchmark Environment for Engine-Grounded PCB Design Automation](https://arxiv.org/abs/2607.05915)
 - [KiCad 官方文档](https://docs.kicad.org/)
 
-本文介绍当前论文稿件。任务图、方法架构图和定性 case 分析将在准备好后补充。
+本文介绍当前论文稿件。方法图为当前示意版本，后续会更新；定性 case 分析将在准备好后补充。

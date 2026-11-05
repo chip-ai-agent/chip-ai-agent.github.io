@@ -140,7 +140,7 @@ def build_post(site: dict, post: dict, lang: str) -> None:
     body = f"""<main class="wrap doc research-article">
   <p class="back"><a href="{rel(depth)}{PREFIX[lang]}#research">{t['back']}</a></p>
   <header class="research-header">
-  <p class="eyebrow">{('Research notes' if lang == 'en' else '研究笔记')}</p>
+  <p class="eyebrow">{('Blog' if lang == 'en' else '博客')}</p>
   <h1>{html.escape(post[lang]['title'])}</h1>
   {byline}
   <p class="author-note">{author_note}</p>

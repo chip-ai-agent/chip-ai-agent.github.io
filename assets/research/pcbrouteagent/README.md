@@ -2,14 +2,18 @@
 
 The bilingual article sources are in `content/posts/pcbrouteagent/en.md` and `zh.md`.
 
-Reserved figure locations:
+Current figures, shared by both language versions:
 
-- Task: replace the first `<div class="figure-space">...</div>` with the task image.
-- Method: replace the second `<div class="figure-space">...</div>` with the architecture image.
-- Case study: replace each `.case-image-space` and its accompanying text with actual observations.
+- `task.png`: rendered at 2400 px from the paper's `arxiv/fig/pcb-routing-task.pdf`.
+- `framework.png`: copied from the paper's current `arxiv/fig/example.png`.
+  This is the preliminary framework illustration; replace it when the revised artwork is ready.
+- Case study remains reserved: replace each `.case-image-space` and its accompanying text
+  with actual observations.
 
 Store the finished images in this directory. Use root-relative paths such as
-`/assets/research/pcbrouteagent/task.png` in both language versions. Supply
+`/assets/research/pcbrouteagent/task.png` in both language versions. Replacing
+`framework.png` updates both articles; update the image width and height attributes
+in the Markdown if the dimensions change. Supply
 descriptive alt text and update the captions. Do not present the placeholder
 case descriptions as measured case-study findings.
 
