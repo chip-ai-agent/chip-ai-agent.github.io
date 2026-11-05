@@ -114,10 +114,23 @@
 </tbody>
 </table></div>
 <p>On the three real-world splits, the Opus variant improves clean pass over the best evaluated baseline by <strong>13.9, 36, and 10 percentage points</strong>. On D2, it matches the full completion achieved by the strongest baselines.</p>
-<details class="evaluation-note"><summary>Evaluation details and the meaning of “baseline”</summary><p>D2, D3-A, and D3-B published baseline values follow PCBWorld Table 22 (@1); the Haiku interactive baseline and all D3-C results are evaluated locally. D3-B PCBRouteAgent results include retries of unscored model-response failures and angle repair. “Best evaluated baseline” excludes Reference, which scores the retained original routed designs rather than running an automatic router. Published baseline means can reflect a different aggregation from our single scored board per instance.</p></details>
+<details class="evaluation-note"><summary>Evaluation details and the meaning of “baseline”</summary><p>D2, D3-A, and D3-B published baseline values follow <a href="https://arxiv.org/html/2607.05915v4#A12.T22">PCBWorld Table 22 (@1)</a>; the Haiku interactive baseline and all D3-C results are evaluated locally. D3-B PCBRouteAgent results include retries of unscored model-response failures and angle repair. “Best evaluated baseline” excludes Reference, which scores the retained original routed designs rather than running an automatic router. Published baseline means can reflect a different aggregation from our single scored board per instance.</p></details>
 
 <h2 id="what-changes-beyond-clean-pass">What changes beyond clean pass?</h2>
-<p>Clean pass measures complete success at the board level. To see how routes differ, we also compare <strong>routability</strong> (the fraction of required connections completed), mean <strong>DRV</strong> count, wirelength, and via count. Below, PCBRouteAgent uses Claude Opus 5.5 and is compared with Freerouting, the strongest evaluated rule-based baseline in clean pass on the real-world splits. Bold marks the better value within each pair; ties share the formatting.</p>
+<p>Clean pass measures complete success at the board level. To see how routes differ, we also compare <strong>routability</strong> (the fraction of required connections completed), mean <strong>DRV</strong> count, wirelength, and via count. The interactive comparison below uses Claude Opus 5.5 for PCBRouteAgent and includes three rule-based routers: Freerouting, OrthoRoute, and KiCadRoutingTools. Select a test split and metric to inspect the results. Freerouting is the strongest evaluated rule-based baseline in clean pass on the real-world splits.</p>
+<div class="routing-explorer" data-language="en">
+<div class="explorer-toolbar"><div class="explorer-splits" role="group" aria-label="Test split"><button type="button" data-split="D2" aria-pressed="false">D2</button><button type="button" data-split="D3-A" aria-pressed="true">D3-A</button><button type="button" data-split="D3-B" aria-pressed="false">D3-B</button><button type="button" data-split="D3-C" aria-pressed="false">D3-C</button></div><label class="explorer-metric">Metric<select><option value="cp">Clean pass</option><option value="rout">Routability</option><option value="drv">DRV</option><option value="wirelength">Wirelength (mm)</option><option value="vias">Via count</option></select></label></div>
+<div class="explorer-heading"><strong class="explorer-title">D3-A · Clean pass</strong><span class="explorer-direction">Higher is better</span></div>
+<div class="explorer-legend"><span><i class="baseline-key"></i>Rule-based baselines</span><span><i class="ours-key"></i>PCBRouteAgent · Opus 5.5</span></div>
+<div class="explorer-bars" role="img" aria-label="Routing results comparison"></div>
+<p class="explorer-status" role="status" aria-live="polite"></p>
+<p class="explorer-caveat">Read wirelength and via count alongside completion: unfinished routes can also have low physical costs.</p>
+<script type="application/json" class="routing-chart-data">{"splits": {"D2": {"boards": 128, "methods": [{"key": "freerouting", "name": "Freerouting", "cp": 1.0, "rout": 1.0, "drv": 0.0, "wirelength": 409.8, "vias": 2.48}, {"key": "orthoroute", "name": "OrthoRoute", "cp": 0.01, "rout": 0.34, "drv": 8.54, "wirelength": 323.4, "vias": 11.3}, {"key": "krt", "name": "KiCadRoutingTools", "cp": 1.0, "rout": 1.0, "drv": 0.0, "wirelength": 373.9, "vias": 8.09}, {"key": "ours", "name": "PCBRouteAgent", "cp": 1.0, "rout": 1.0, "drv": 0.0, "wirelength": 392.5, "vias": 1.99}]}, "D3-A": {"boards": 99, "methods": [{"key": "freerouting", "name": "Freerouting", "cp": 0.75, "rout": 0.9, "drv": 1.08, "wirelength": 156.6, "vias": 0.86}, {"key": "orthoroute", "name": "OrthoRoute", "cp": 0.02, "rout": 0.53, "drv": 99.7, "wirelength": 129.8, "vias": 26.97}, {"key": "krt", "name": "KiCadRoutingTools", "cp": 0.74, "rout": 0.94, "drv": 2.38, "wirelength": 142.8, "vias": 3.69}, {"key": "ours", "name": "PCBRouteAgent", "cp": 0.949, "rout": 0.994, "drv": 0.09, "wirelength": 165.5, "vias": 0.79}]}, "D3-B": {"boards": 10, "methods": [{"key": "freerouting", "name": "Freerouting", "cp": 0.64, "rout": 0.99, "drv": 11.94, "wirelength": 533.5, "vias": 3.88}, {"key": "orthoroute", "name": "OrthoRoute", "cp": 0.0, "rout": 0.44, "drv": 188.2, "wirelength": 370.0, "vias": 39.8}, {"key": "krt", "name": "KiCadRoutingTools", "cp": 0.2, "rout": 0.86, "drv": 44.7, "wirelength": 472.3, "vias": 11.8}, {"key": "ours", "name": "PCBRouteAgent", "cp": 1.0, "rout": 1.0, "drv": 0.0, "wirelength": 591.6, "vias": 4.0}]}, "D3-C": {"boards": 10, "methods": [{"key": "freerouting", "name": "Freerouting", "cp": 0.3, "rout": 0.918, "drv": 32.0, "wirelength": 1304.0, "vias": 21.4}, {"key": "orthoroute", "name": "OrthoRoute", "cp": 0.0, "rout": 0.063, "drv": 139.9, "wirelength": 80.0, "vias": 17.8}, {"key": "krt", "name": "KiCadRoutingTools", "cp": 0.0, "rout": 0.778, "drv": 30.5, "wirelength": 1086.0, "vias": 57.4}, {"key": "ours", "name": "PCBRouteAgent", "cp": 0.4, "rout": 0.949, "drv": 6.3, "wirelength": 1410.5, "vias": 21.3}]}}}</script>
+</div>
+
+<p class="chart-source">Source: rule-based results for D2, D3-A, and D3-B are from <a href="https://arxiv.org/html/2607.05915v4#A12.T22">PCBWorld Table 22 (@1)</a>. D3-C and PCBRouteAgent results are local evaluations.</p>
+
+<details class="routing-details"><summary>Detailed Freerouting comparison</summary>
 <div class="table-scroll"><table>
 <thead>
 <tr>
@@ -196,6 +209,8 @@
 </tr>
 </tbody>
 </table></div>
+</details>
+
 <p>On <strong>D3-A</strong>, routability increases from 0.900 to 0.994 and mean DRV decreases from 1.08 to 0.09. On <strong>D3-B</strong>, PCBRouteAgent reaches full connectivity and zero DRV across all ten boards. These results show that the higher clean-pass rate is accompanied by better completion and fewer reported violations.</p>
 <p>On <strong>D3-C</strong>, mean routability rises from 0.918 to 0.949 and DRV falls from 32.00 to 6.30, an <strong>80.3% reduction</strong>. Yet only four of ten boards pass. This highlights the strictness of board-level success: even a small number of remaining connections can prevent a nearly routed board from passing.</p>
 <p>Physical routing cost presents a tradeoff. The Opus variant uses <strong>10.9% more wirelength on D3-B</strong> and <strong>8.2% more on D3-C</strong> than Freerouting while completing more boards. A lower wirelength alone does not establish better routing, since incomplete solutions can leave less copper on the board. Completion, rule compliance, and physical cost need to be assessed together.</p>
@@ -358,7 +373,7 @@
 <p>This blog post summarizes our current manuscript.</p>
   </article>
   </div>
-</main>
+</main><script defer src="../../assets/routing-comparison.js"></script>
 <footer><div class="wrap"><span>© 2026 chip-ai-agent</span><a href="https://github.com/chip-ai-agent">GitHub</a></div></footer>
 </body>
 </html>

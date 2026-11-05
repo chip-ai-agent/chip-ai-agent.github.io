@@ -129,6 +129,10 @@ def build_post(site: dict, post: dict, lang: str) -> None:
     other = rel(depth) + PREFIX[other_lang] + f"research/{post['slug']}/"
     md = markdown.Markdown(extensions=["tables", "fenced_code", "toc"])
     content = md.convert(post[lang]["body"])
+    scripts = ''
+    if '<!-- ROUTING_COMPARISON -->' in content:
+        content = content.replace('<!-- ROUTING_COMPARISON -->', routing_comparison(lang))
+        scripts = f'<script defer src="{rel(depth)}assets/routing-comparison.js"></script>'
     content = content.replace("<table>", '<div class="table-scroll"><table>').replace("</table>", "</table></div>")
     tags = "".join(f"<span>{html.escape(x)}</span>" for x in post["tags"].get(lang, []))
     authors = " · ".join(html.escape(author) for author in post["authors"])
@@ -164,10 +168,30 @@ def build_post(site: dict, post: dict, lang: str) -> None:
   </article>
   </div>
 </main>"""
+    body += scripts
     out = ROOT / PREFIX[lang] / "research" / post["slug"] / "index.html"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(page(site, lang, depth, other, f"{post[lang]['title']} · {site['name']}",
                         post["summary"].get(lang, ""), body))
+
+
+def routing_comparison(lang: str) -> str:
+    data = json.loads((ROOT / 'assets/research/pcbrouteagent/routing-results.json').read_text())
+    zh = lang == 'zh'
+    labels = {'cp': 'Clean pass', 'rout': 'Routability', 'drv': 'DRV',
+              'wirelength': '线长（mm）' if zh else 'Wirelength (mm)', 'vias': '过孔数' if zh else 'Via count'}
+    split_buttons = ''.join(f'<button type="button" data-split="{key}" aria-pressed="{str(key == "D3-A").lower()}">{key}</button>' for key in data['splits'])
+    options = ''.join(f'<option value="{key}">{label}</option>' for key, label in labels.items())
+    payload = json.dumps(data, ensure_ascii=False).replace('<', '\\u003c')
+    return f'''<div class="routing-explorer" data-language="{lang}">
+<div class="explorer-toolbar"><div class="explorer-splits" role="group" aria-label="{'测试集' if zh else 'Test split'}">{split_buttons}</div><label class="explorer-metric">{'指标' if zh else 'Metric'}<select>{options}</select></label></div>
+<div class="explorer-heading"><strong class="explorer-title">D3-A · Clean pass</strong><span class="explorer-direction">{'越高越好' if zh else 'Higher is better'}</span></div>
+<div class="explorer-legend"><span><i class="baseline-key"></i>{'规则式基线' if zh else 'Rule-based baselines'}</span><span><i class="ours-key"></i>PCBRouteAgent · Opus 5.5</span></div>
+<div class="explorer-bars" role="img" aria-label="{'布线结果对比' if zh else 'Routing results comparison'}"></div>
+<p class="explorer-status" role="status" aria-live="polite"></p>
+<p class="explorer-caveat">{'线长和过孔数需结合完成度解读；未完成的布线也可能数值较低。' if zh else 'Read wirelength and via count alongside completion: unfinished routes can also have low physical costs.'}</p>
+<script type="application/json" class="routing-chart-data">{payload}</script>
+</div>'''
 
 
 def main() -> None:

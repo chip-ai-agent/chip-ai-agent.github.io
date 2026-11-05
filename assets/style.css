@@ -225,6 +225,35 @@ footer a { color: var(--muted); }
 .case-image-space { min-height: 155px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--muted); margin: 12px 0; padding: 16px; text-align: center; border: 1px dashed var(--line); border-radius: 4px; background: var(--surface); }
 .case-stage h3 { font-size: 15px; margin: 12px 0 6px; line-height: 1.4; }
 .case-stage p { font-size: 13px; line-height: 1.6; color: var(--muted); margin: 0; }
+.routing-explorer { margin: 28px 0 12px; padding: 24px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+.explorer-toolbar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+.explorer-splits { display: flex; gap: 4px; background: var(--code-bg); padding: 4px; border-radius: 7px; }
+.explorer-splits button { appearance: none; border: 0; border-radius: 4px; padding: 7px 12px; background: transparent; font: inherit; font-size: 13px; cursor: pointer; color: var(--muted); }
+.explorer-splits button[aria-pressed="true"] { background: var(--accent); color: var(--bg); }
+.explorer-metric { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
+.explorer-metric select { font: inherit; font-size: 13px; padding: 8px 28px 8px 10px; border: 1px solid var(--line); border-radius: 5px; background: var(--surface); color: var(--ink); max-width: 200px; }
+.explorer-heading { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+.explorer-title { font-size: 20px; font-weight: 600; letter-spacing: -0.3px; }
+.explorer-direction { font-size: 12px; color: var(--muted); }
+.explorer-legend { display: flex; flex-wrap: wrap; gap: 10px 20px; margin: 10px 0 24px; color: var(--muted); font-size: 12px; }
+.explorer-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.explorer-legend i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; }
+.explorer-bars { display: grid; gap: 24px; padding: 0 0 20px; }
+.explorer-bar-row { display: grid; grid-template-columns: 155px minmax(0, 1fr) 98px; align-items: center; gap: 14px; min-height: 32px; }
+.explorer-method-name { font-size: 13px; color: var(--muted); }
+.is-ours .explorer-method-name { color: var(--accent); font-weight: 650; }
+.explorer-bar-track { display: block; height: 15px; border-radius: 3px; background: var(--code-bg); overflow: hidden; }
+.explorer-bar-fill { display: block; height: 100%; border-radius: 3px; background: var(--chart-muted); }
+.is-ours .explorer-bar-fill { background: var(--accent); }
+.explorer-value { display: flex; align-items: center; justify-content: flex-end; gap: 6px; font-size: 13px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.explorer-best { color: var(--good); font-size: 10px; border: 1px solid var(--line); padding: 1px 4px; border-radius: 3px; }
+.doc .explorer-status { margin: 0; font-size: 12px; color: var(--muted); }
+.doc .explorer-caveat { font-size: 12px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px; margin: 14px 0 0; line-height: 1.65; }
+.doc .chart-source { font-size: 12px; color: var(--muted); line-height: 1.7; margin: 10px 0 20px; }
+.routing-details { margin: 20px 0 28px; }
+.routing-details summary { font-size: 14px; cursor: pointer; color: var(--muted); }
+.routing-details[open] summary { margin-bottom: 12px; }
+button:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 @media (max-width: 900px) {
   .article-layout { display: block; }
@@ -245,4 +274,15 @@ a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outli
   .comparison-row > b { font-size: 11px; }
   .case-reserve { grid-template-columns: 1fr; gap: 24px; }
   .case-image-space { min-height: 200px; }
+  .routing-explorer { padding: 16px; }
+  .explorer-toolbar { gap: 12px; }
+  .explorer-splits { flex: 1 1 100%; justify-content: space-between; }
+  .explorer-splits button { flex: 1; padding: 7px 8px; }
+  .explorer-metric { justify-content: space-between; width: 100%; }
+  .explorer-title { font-size: 18px; }
+  .explorer-bar-row { grid-template-columns: minmax(0, 1fr) 100px; gap: 8px; }
+  .explorer-method-name { grid-column: 1; }
+  .explorer-value { grid-column: 2; grid-row: 1; }
+  .explorer-bar-track { grid-column: 1 / -1; grid-row: 2; }
+  .explorer-bars { gap: 18px; }
 }

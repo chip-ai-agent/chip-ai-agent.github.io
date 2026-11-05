@@ -41,22 +41,96 @@ PCBRouteAgent 包含三个功能组件，由执行控制器管理任务、检查
 
 在三个真实电路板测试集上，Opus 版本分别比最佳已评估基线提高 **13.9、36 和 10 个百分点**；在 D2 上，与最强基线一样实现全部通过。
 
-<details class="evaluation-note"><summary>评估细节：“基线”和 Reference 分别指什么？</summary><p>D2、D3-A 和 D3-B 的公开基线采用 PCBWorld 表 22 的 @1 结果；Haiku 交互式基线及全部 D3-C 结果为本地评估。D3-B 的 PCBRouteAgent 结果包含未进入评分的模型响应失败重试和角度修复。“最佳已评估基线”不包括 Reference：后者评估公开数据集中保留的原始已布线设计，并不是重新运行自动布线器得到的结果。公开基线均值的聚合方式可能与我们每个实例提交一块板评分的方式不同。</p></details>
+<details class="evaluation-note"><summary>评估细节：“基线”和 Reference 分别指什么？</summary><p>D2、D3-A 和 D3-B 的公开基线采用 <a href="https://arxiv.org/html/2607.05915v4#A12.T22">PCBWorld 表 22（@1）</a>的结果；Haiku 交互式基线及全部 D3-C 结果为本地评估。D3-B 的 PCBRouteAgent 结果包含未进入评分的模型响应失败重试和角度修复。“最佳已评估基线”不包括 Reference：后者评估公开数据集中保留的原始已布线设计，并不是重新运行自动布线器得到的结果。公开基线均值的聚合方式可能与我们每个实例提交一块板评分的方式不同。</p></details>
 
 ## 除了整板通过率，还有哪些变化？
 
-整板通过率衡量一块板是否完整成功。为了看清布线质量，我们还比较 **Routability（必需连接的完成比例）**、平均 **DRV**、线长和过孔数。下表使用 Claude Opus 5.5 版本的 PCBRouteAgent，与真实板测试集上整板通过率最高的已评估规则式基线 Freerouting 对比。同一测试集内较好的数值加粗，并列时共同加粗。
+整板通过率衡量一块板是否完整成功。为了看清布线质量，我们还比较 **Routability（必需连接的完成比例）**、平均 **DRV**、线长和过孔数。下面的互动图使用 Claude Opus 5.5 版本的 PCBRouteAgent，与 Freerouting、OrthoRoute 和 KiCadRoutingTools 三个规则式布线器对比。可以切换测试集和指标查看结果。Freerouting 是真实板测试集上整板通过率最高的已评估规则式基线。
 
-| 测试集 | 方法 | Rout. ↑ | DRV ↓ | 线长（mm）↓ | 过孔数 ↓ |
-| :--- | :--- | ---: | ---: | ---: | ---: |
-| D2 | Freerouting | **1.000** | **0.00** | 409.8 | 2.48 |
-| D2 | PCBRouteAgent · Opus | **1.000** | **0.00** | **392.5** | **1.99** |
-| D3-A | Freerouting | 0.900 | 1.08 | **156.6** | 0.86 |
-| D3-A | PCBRouteAgent · Opus | **0.994** | **0.09** | 165.5 | **0.79** |
-| D3-B | Freerouting | 0.990 | 11.94 | **533.5** | **3.88** |
-| D3-B | PCBRouteAgent · Opus | **1.000** | **0.00** | 591.6 | 4.00 |
-| D3-C | Freerouting | 0.918 | 32.00 | **1304.0** | 21.40 |
-| D3-C | PCBRouteAgent · Opus | **0.949** | **6.30** | 1410.5 | **21.30** |
+<!-- ROUTING_COMPARISON -->
+
+<p class="chart-source">数据来源：D2、D3-A、D3-B 的规则式基线采用 <a href="https://arxiv.org/html/2607.05915v4#A12.T22">PCBWorld 表 22（@1）</a>；D3-C 和 PCBRouteAgent 的结果为本地评估。</p>
+
+<details class="routing-details"><summary>展开 Freerouting 详细对比表</summary>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">测试集</th>
+<th style="text-align: left;">方法</th>
+<th style="text-align: right;">Rout. ↑</th>
+<th style="text-align: right;">DRV ↓</th>
+<th style="text-align: right;">线长（mm）↓</th>
+<th style="text-align: right;">过孔数 ↓</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">D2</td>
+<td style="text-align: left;">Freerouting</td>
+<td style="text-align: right;"><strong>1.000</strong></td>
+<td style="text-align: right;"><strong>0.00</strong></td>
+<td style="text-align: right;">409.8</td>
+<td style="text-align: right;">2.48</td>
+</tr>
+<tr>
+<td style="text-align: left;">D2</td>
+<td style="text-align: left;">PCBRouteAgent · Opus</td>
+<td style="text-align: right;"><strong>1.000</strong></td>
+<td style="text-align: right;"><strong>0.00</strong></td>
+<td style="text-align: right;"><strong>392.5</strong></td>
+<td style="text-align: right;"><strong>1.99</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">D3-A</td>
+<td style="text-align: left;">Freerouting</td>
+<td style="text-align: right;">0.900</td>
+<td style="text-align: right;">1.08</td>
+<td style="text-align: right;"><strong>156.6</strong></td>
+<td style="text-align: right;">0.86</td>
+</tr>
+<tr>
+<td style="text-align: left;">D3-A</td>
+<td style="text-align: left;">PCBRouteAgent · Opus</td>
+<td style="text-align: right;"><strong>0.994</strong></td>
+<td style="text-align: right;"><strong>0.09</strong></td>
+<td style="text-align: right;">165.5</td>
+<td style="text-align: right;"><strong>0.79</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">D3-B</td>
+<td style="text-align: left;">Freerouting</td>
+<td style="text-align: right;">0.990</td>
+<td style="text-align: right;">11.94</td>
+<td style="text-align: right;"><strong>533.5</strong></td>
+<td style="text-align: right;"><strong>3.88</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">D3-B</td>
+<td style="text-align: left;">PCBRouteAgent · Opus</td>
+<td style="text-align: right;"><strong>1.000</strong></td>
+<td style="text-align: right;"><strong>0.00</strong></td>
+<td style="text-align: right;">591.6</td>
+<td style="text-align: right;">4.00</td>
+</tr>
+<tr>
+<td style="text-align: left;">D3-C</td>
+<td style="text-align: left;">Freerouting</td>
+<td style="text-align: right;">0.918</td>
+<td style="text-align: right;">32.00</td>
+<td style="text-align: right;"><strong>1304.0</strong></td>
+<td style="text-align: right;">21.40</td>
+</tr>
+<tr>
+<td style="text-align: left;">D3-C</td>
+<td style="text-align: left;">PCBRouteAgent · Opus</td>
+<td style="text-align: right;"><strong>0.949</strong></td>
+<td style="text-align: right;"><strong>6.30</strong></td>
+<td style="text-align: right;">1410.5</td>
+<td style="text-align: right;"><strong>21.30</strong></td>
+</tr>
+</tbody>
+</table>
+</details>
 
 在 **D3-A** 上，Routability 从 0.900 提高到 0.994，平均 DRV 从 1.08 降至 0.09。在 **D3-B** 上，PCBRouteAgent 在全部十块板上完成连接，且 DRV 为零。整板通过率的提高，伴随着连通性的提升和违规计数的下降。
 

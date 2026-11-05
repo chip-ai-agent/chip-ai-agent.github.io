@@ -1,0 +1,168 @@
+{
+  "splits": {
+    "D2": {
+      "boards": 128,
+      "methods": [
+        {
+          "key": "freerouting",
+          "name": "Freerouting",
+          "cp": 1.0,
+          "rout": 1.0,
+          "drv": 0.0,
+          "wirelength": 409.8,
+          "vias": 2.48
+        },
+        {
+          "key": "orthoroute",
+          "name": "OrthoRoute",
+          "cp": 0.01,
+          "rout": 0.34,
+          "drv": 8.54,
+          "wirelength": 323.4,
+          "vias": 11.3
+        },
+        {
+          "key": "krt",
+          "name": "KiCadRoutingTools",
+          "cp": 1.0,
+          "rout": 1.0,
+          "drv": 0.0,
+          "wirelength": 373.9,
+          "vias": 8.09
+        },
+        {
+          "key": "ours",
+          "name": "PCBRouteAgent",
+          "cp": 1.0,
+          "rout": 1.0,
+          "drv": 0.0,
+          "wirelength": 392.5,
+          "vias": 1.99
+        }
+      ]
+    },
+    "D3-A": {
+      "boards": 99,
+      "methods": [
+        {
+          "key": "freerouting",
+          "name": "Freerouting",
+          "cp": 0.75,
+          "rout": 0.9,
+          "drv": 1.08,
+          "wirelength": 156.6,
+          "vias": 0.86
+        },
+        {
+          "key": "orthoroute",
+          "name": "OrthoRoute",
+          "cp": 0.02,
+          "rout": 0.53,
+          "drv": 99.7,
+          "wirelength": 129.8,
+          "vias": 26.97
+        },
+        {
+          "key": "krt",
+          "name": "KiCadRoutingTools",
+          "cp": 0.74,
+          "rout": 0.94,
+          "drv": 2.38,
+          "wirelength": 142.8,
+          "vias": 3.69
+        },
+        {
+          "key": "ours",
+          "name": "PCBRouteAgent",
+          "cp": 0.949,
+          "rout": 0.994,
+          "drv": 0.09,
+          "wirelength": 165.5,
+          "vias": 0.79
+        }
+      ]
+    },
+    "D3-B": {
+      "boards": 10,
+      "methods": [
+        {
+          "key": "freerouting",
+          "name": "Freerouting",
+          "cp": 0.64,
+          "rout": 0.99,
+          "drv": 11.94,
+          "wirelength": 533.5,
+          "vias": 3.88
+        },
+        {
+          "key": "orthoroute",
+          "name": "OrthoRoute",
+          "cp": 0.0,
+          "rout": 0.44,
+          "drv": 188.2,
+          "wirelength": 370.0,
+          "vias": 39.8
+        },
+        {
+          "key": "krt",
+          "name": "KiCadRoutingTools",
+          "cp": 0.2,
+          "rout": 0.86,
+          "drv": 44.7,
+          "wirelength": 472.3,
+          "vias": 11.8
+        },
+        {
+          "key": "ours",
+          "name": "PCBRouteAgent",
+          "cp": 1.0,
+          "rout": 1.0,
+          "drv": 0.0,
+          "wirelength": 591.6,
+          "vias": 4.0
+        }
+      ]
+    },
+    "D3-C": {
+      "boards": 10,
+      "methods": [
+        {
+          "key": "freerouting",
+          "name": "Freerouting",
+          "cp": 0.3,
+          "rout": 0.918,
+          "drv": 32.0,
+          "wirelength": 1304.0,
+          "vias": 21.4
+        },
+        {
+          "key": "orthoroute",
+          "name": "OrthoRoute",
+          "cp": 0.0,
+          "rout": 0.063,
+          "drv": 139.9,
+          "wirelength": 80.0,
+          "vias": 17.8
+        },
+        {
+          "key": "krt",
+          "name": "KiCadRoutingTools",
+          "cp": 0.0,
+          "rout": 0.778,
+          "drv": 30.5,
+          "wirelength": 1086.0,
+          "vias": 57.4
+        },
+        {
+          "key": "ours",
+          "name": "PCBRouteAgent",
+          "cp": 0.4,
+          "rout": 0.949,
+          "drv": 6.3,
+          "wirelength": 1410.5,
+          "vias": 21.3
+        }
+      ]
+    }
+  }
+}

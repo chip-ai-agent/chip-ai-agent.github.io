@@ -29,3 +29,9 @@ English lives at `/`, Chinese at `/zh/`; every page links to the other language.
 Research posts support optional `authors`, `affiliations`, bilingual `author_note`,
 and bilingual resource `links` in `meta.json`. The contents sidebar is generated
 from the article headings.
+
+The routing-quality explorer reads `assets/research/pcbrouteagent/routing-results.json`.
+Its data are transcribed from the paper's four main tables; D2/D3-A/D3-B rule-based
+baselines link to PCBWorld v4, Table 22. Use `<!-- ROUTING_COMPARISON -->` in the
+article source to render the bilingual controls and chart. Update the JSON and
+rebuild when routing results change.

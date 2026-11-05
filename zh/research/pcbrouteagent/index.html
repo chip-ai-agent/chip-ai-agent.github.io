@@ -114,10 +114,23 @@
 </tbody>
 </table></div>
 <p>在三个真实电路板测试集上，Opus 版本分别比最佳已评估基线提高 <strong>13.9、36 和 10 个百分点</strong>；在 D2 上，与最强基线一样实现全部通过。</p>
-<details class="evaluation-note"><summary>评估细节：“基线”和 Reference 分别指什么？</summary><p>D2、D3-A 和 D3-B 的公开基线采用 PCBWorld 表 22 的 @1 结果；Haiku 交互式基线及全部 D3-C 结果为本地评估。D3-B 的 PCBRouteAgent 结果包含未进入评分的模型响应失败重试和角度修复。“最佳已评估基线”不包括 Reference：后者评估公开数据集中保留的原始已布线设计，并不是重新运行自动布线器得到的结果。公开基线均值的聚合方式可能与我们每个实例提交一块板评分的方式不同。</p></details>
+<details class="evaluation-note"><summary>评估细节：“基线”和 Reference 分别指什么？</summary><p>D2、D3-A 和 D3-B 的公开基线采用 <a href="https://arxiv.org/html/2607.05915v4#A12.T22">PCBWorld 表 22（@1）</a>的结果；Haiku 交互式基线及全部 D3-C 结果为本地评估。D3-B 的 PCBRouteAgent 结果包含未进入评分的模型响应失败重试和角度修复。“最佳已评估基线”不包括 Reference：后者评估公开数据集中保留的原始已布线设计，并不是重新运行自动布线器得到的结果。公开基线均值的聚合方式可能与我们每个实例提交一块板评分的方式不同。</p></details>
 
 <h2 id="_4">除了整板通过率，还有哪些变化？</h2>
-<p>整板通过率衡量一块板是否完整成功。为了看清布线质量，我们还比较 <strong>Routability（必需连接的完成比例）</strong>、平均 <strong>DRV</strong>、线长和过孔数。下表使用 Claude Opus 5.5 版本的 PCBRouteAgent，与真实板测试集上整板通过率最高的已评估规则式基线 Freerouting 对比。同一测试集内较好的数值加粗，并列时共同加粗。</p>
+<p>整板通过率衡量一块板是否完整成功。为了看清布线质量，我们还比较 <strong>Routability（必需连接的完成比例）</strong>、平均 <strong>DRV</strong>、线长和过孔数。下面的互动图使用 Claude Opus 5.5 版本的 PCBRouteAgent，与 Freerouting、OrthoRoute 和 KiCadRoutingTools 三个规则式布线器对比。可以切换测试集和指标查看结果。Freerouting 是真实板测试集上整板通过率最高的已评估规则式基线。</p>
+<div class="routing-explorer" data-language="zh">
+<div class="explorer-toolbar"><div class="explorer-splits" role="group" aria-label="测试集"><button type="button" data-split="D2" aria-pressed="false">D2</button><button type="button" data-split="D3-A" aria-pressed="true">D3-A</button><button type="button" data-split="D3-B" aria-pressed="false">D3-B</button><button type="button" data-split="D3-C" aria-pressed="false">D3-C</button></div><label class="explorer-metric">指标<select><option value="cp">Clean pass</option><option value="rout">Routability</option><option value="drv">DRV</option><option value="wirelength">线长（mm）</option><option value="vias">过孔数</option></select></label></div>
+<div class="explorer-heading"><strong class="explorer-title">D3-A · Clean pass</strong><span class="explorer-direction">越高越好</span></div>
+<div class="explorer-legend"><span><i class="baseline-key"></i>规则式基线</span><span><i class="ours-key"></i>PCBRouteAgent · Opus 5.5</span></div>
+<div class="explorer-bars" role="img" aria-label="布线结果对比"></div>
+<p class="explorer-status" role="status" aria-live="polite"></p>
+<p class="explorer-caveat">线长和过孔数需结合完成度解读；未完成的布线也可能数值较低。</p>
+<script type="application/json" class="routing-chart-data">{"splits": {"D2": {"boards": 128, "methods": [{"key": "freerouting", "name": "Freerouting", "cp": 1.0, "rout": 1.0, "drv": 0.0, "wirelength": 409.8, "vias": 2.48}, {"key": "orthoroute", "name": "OrthoRoute", "cp": 0.01, "rout": 0.34, "drv": 8.54, "wirelength": 323.4, "vias": 11.3}, {"key": "krt", "name": "KiCadRoutingTools", "cp": 1.0, "rout": 1.0, "drv": 0.0, "wirelength": 373.9, "vias": 8.09}, {"key": "ours", "name": "PCBRouteAgent", "cp": 1.0, "rout": 1.0, "drv": 0.0, "wirelength": 392.5, "vias": 1.99}]}, "D3-A": {"boards": 99, "methods": [{"key": "freerouting", "name": "Freerouting", "cp": 0.75, "rout": 0.9, "drv": 1.08, "wirelength": 156.6, "vias": 0.86}, {"key": "orthoroute", "name": "OrthoRoute", "cp": 0.02, "rout": 0.53, "drv": 99.7, "wirelength": 129.8, "vias": 26.97}, {"key": "krt", "name": "KiCadRoutingTools", "cp": 0.74, "rout": 0.94, "drv": 2.38, "wirelength": 142.8, "vias": 3.69}, {"key": "ours", "name": "PCBRouteAgent", "cp": 0.949, "rout": 0.994, "drv": 0.09, "wirelength": 165.5, "vias": 0.79}]}, "D3-B": {"boards": 10, "methods": [{"key": "freerouting", "name": "Freerouting", "cp": 0.64, "rout": 0.99, "drv": 11.94, "wirelength": 533.5, "vias": 3.88}, {"key": "orthoroute", "name": "OrthoRoute", "cp": 0.0, "rout": 0.44, "drv": 188.2, "wirelength": 370.0, "vias": 39.8}, {"key": "krt", "name": "KiCadRoutingTools", "cp": 0.2, "rout": 0.86, "drv": 44.7, "wirelength": 472.3, "vias": 11.8}, {"key": "ours", "name": "PCBRouteAgent", "cp": 1.0, "rout": 1.0, "drv": 0.0, "wirelength": 591.6, "vias": 4.0}]}, "D3-C": {"boards": 10, "methods": [{"key": "freerouting", "name": "Freerouting", "cp": 0.3, "rout": 0.918, "drv": 32.0, "wirelength": 1304.0, "vias": 21.4}, {"key": "orthoroute", "name": "OrthoRoute", "cp": 0.0, "rout": 0.063, "drv": 139.9, "wirelength": 80.0, "vias": 17.8}, {"key": "krt", "name": "KiCadRoutingTools", "cp": 0.0, "rout": 0.778, "drv": 30.5, "wirelength": 1086.0, "vias": 57.4}, {"key": "ours", "name": "PCBRouteAgent", "cp": 0.4, "rout": 0.949, "drv": 6.3, "wirelength": 1410.5, "vias": 21.3}]}}}</script>
+</div>
+
+<p class="chart-source">数据来源：D2、D3-A、D3-B 的规则式基线采用 <a href="https://arxiv.org/html/2607.05915v4#A12.T22">PCBWorld 表 22（@1）</a>；D3-C 和 PCBRouteAgent 的结果为本地评估。</p>
+
+<details class="routing-details"><summary>展开 Freerouting 详细对比表</summary>
 <div class="table-scroll"><table>
 <thead>
 <tr>
@@ -196,6 +209,8 @@
 </tr>
 </tbody>
 </table></div>
+</details>
+
 <p>在 <strong>D3-A</strong> 上，Routability 从 0.900 提高到 0.994，平均 DRV 从 1.08 降至 0.09。在 <strong>D3-B</strong> 上，PCBRouteAgent 在全部十块板上完成连接，且 DRV 为零。整板通过率的提高，伴随着连通性的提升和违规计数的下降。</p>
 <p>在 <strong>D3-C</strong> 上，平均 Routability 从 0.918 提高到 0.949，DRV 从 32.00 降到 6.30，<strong>下降 80.3%</strong>；但十块板中仍然只有四块通过。这说明整板成功是严格的指标：即使只剩少数未解决连接，一块已经接近完成的板也可能无法通过。</p>
 <p>物理布线成本存在取舍。相比 Freerouting，Opus 版本在 <strong>D3-B 上线长增加 10.9%</strong>，在 <strong>D3-C 上增加 8.2%</strong>，同时完成了更多电路板。单独看较短的线长并不能判断布线更好，因为未完成的方案也可能只是铺设了更少的铜线。需要把完成度、规则合规性和物理成本放在一起判断。</p>
@@ -358,7 +373,7 @@
 <p>本文介绍当前论文稿件。</p>
   </article>
   </div>
-</main>
+</main><script defer src="../../../assets/routing-comparison.js"></script>
 <footer><div class="wrap"><span>© 2026 chip-ai-agent</span><a href="https://github.com/chip-ai-agent">GitHub</a></div></footer>
 </body>
 </html>
