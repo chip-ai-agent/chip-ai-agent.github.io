@@ -59,12 +59,6 @@ The improvement holds across all four splits. It supports the effectiveness of t
 
 We do not conduct a full PCBWorld–Opus evaluation because we verified that its per-step model invocation incurs substantially higher API costs than PCBRouteAgent. The shared-Haiku comparison provides evidence without relying on an unmeasured Opus baseline.
 
-## A closer look at routing decisions
-
-Aggregate scores tell us whether a board passes. A case study should also show why a connection failed, what the planner changed, and whether that change helped. We have reserved the following space for board images and execution traces; no qualitative examples are reported here yet.
-
-<div class="case-reserve"><div class="case-stage"><span class="slot-index">A / INITIAL STATE</span><div class="case-image-space">Board image to follow</div><h3>Where routing gets stuck</h3><p>Board context, unresolved connections, and the initial guide.</p></div><div class="case-stage"><span class="slot-index">B / REPLANNING</span><div class="case-image-space">Guide comparison to follow</div><h3>What changes in the guide</h3><p>Execution feedback and the resulting corridor or layer revision.</p></div><div class="case-stage"><span class="slot-index">C / FINAL STATE</span><div class="case-image-space">Routed board to follow</div><h3>What the evaluator finds</h3><p>Final connectivity, rule checks, and any remaining failure.</p></div></div>
-
 ## How close are we to a routing engineer?
 
 There is still a substantial gap. On the largest split, the Opus variant passes four of ten boards. Its mean routability reaches 0.949, but high average connectivity does not guarantee that every connection on a board is complete and clean. Routing compactness also remains a challenge: on D3-C, wirelength is 8.2% higher than Freerouting, while clean pass improves from 30% to 40%.
@@ -92,4 +86,4 @@ If you refer to this work, please cite the manuscript below. Publication details
 - [PCBWorld: A Benchmark Environment for Engine-Grounded PCB Design Automation](https://arxiv.org/abs/2607.05915)
 - [KiCad documentation](https://docs.kicad.org/)
 
-This research note summarizes our current manuscript. Qualitative case studies will be added as they become available.
+This blog post summarizes our current manuscript.

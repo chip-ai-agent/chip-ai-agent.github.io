@@ -37,7 +37,6 @@
 <li><a href="#plan-globally-route-locally-revise-with-feedback">Plan globally, route locally, revise with feedback</a></li>
 <li><a href="#does-the-framework-complete-more-boards">Does the framework complete more boards?</a></li>
 <li><a href="#is-the-gain-just-a-stronger-model">Is the gain just a stronger model?</a></li>
-<li><a href="#a-closer-look-at-routing-decisions">A closer look at routing decisions</a></li>
 <li><a href="#how-close-are-we-to-a-routing-engineer">How close are we to a routing engineer?</a></li>
 <li><a href="#citation">Citation</a></li>
 <li><a href="#resources">Resources</a></li>
@@ -123,10 +122,6 @@
 
 <p>The improvement holds across all four splits. It supports the effectiveness of the overall planning–execution framework beyond the choice of model backbone, although this comparison does not isolate the contribution of each component or equalize interaction budgets.</p>
 <p>We do not conduct a full PCBWorld–Opus evaluation because we verified that its per-step model invocation incurs substantially higher API costs than PCBRouteAgent. The shared-Haiku comparison provides evidence without relying on an unmeasured Opus baseline.</p>
-<h2 id="a-closer-look-at-routing-decisions">A closer look at routing decisions</h2>
-<p>Aggregate scores tell us whether a board passes. A case study should also show why a connection failed, what the planner changed, and whether that change helped. We have reserved the following space for board images and execution traces; no qualitative examples are reported here yet.</p>
-<div class="case-reserve"><div class="case-stage"><span class="slot-index">A / INITIAL STATE</span><div class="case-image-space">Board image to follow</div><h3>Where routing gets stuck</h3><p>Board context, unresolved connections, and the initial guide.</p></div><div class="case-stage"><span class="slot-index">B / REPLANNING</span><div class="case-image-space">Guide comparison to follow</div><h3>What changes in the guide</h3><p>Execution feedback and the resulting corridor or layer revision.</p></div><div class="case-stage"><span class="slot-index">C / FINAL STATE</span><div class="case-image-space">Routed board to follow</div><h3>What the evaluator finds</h3><p>Final connectivity, rule checks, and any remaining failure.</p></div></div>
-
 <h2 id="how-close-are-we-to-a-routing-engineer">How close are we to a routing engineer?</h2>
 <p>There is still a substantial gap. On the largest split, the Opus variant passes four of ten boards. Its mean routability reaches 0.949, but high average connectivity does not guarantee that every connection on a board is complete and clean. Routing compactness also remains a challenge: on D3-C, wirelength is 8.2% higher than Freerouting, while clean pass improves from 30% to 40%.</p>
 <p>These results point toward a useful division of work: let a native router handle physical execution, and use model reasoning to revise board-level decisions when execution provides evidence that they should change. Better completion on large boards, more compact routes, and controlled component ablations are the next questions to investigate.</p>
@@ -146,7 +141,7 @@
 <li><a href="https://arxiv.org/abs/2607.05915">PCBWorld: A Benchmark Environment for Engine-Grounded PCB Design Automation</a></li>
 <li><a href="https://docs.kicad.org/">KiCad documentation</a></li>
 </ul>
-<p>This research note summarizes our current manuscript. Qualitative case studies will be added as they become available.</p>
+<p>This blog post summarizes our current manuscript.</p>
   </article>
   </div>
 </main>

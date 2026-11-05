@@ -59,12 +59,6 @@ PCBRouteAgent 包含三个功能组件，由执行控制器管理任务、检查
 
 我们没有完整评估 PCBWorld–Opus，因为已经验证，其逐步调用模型的方式会产生显著高于 PCBRouteAgent 的 API 费用。相同 Haiku backbone 的对比提供了直接证据，无需依赖未测量的 Opus 基线成绩。
 
-## 看清一次布线决策
-
-汇总指标能告诉我们电路板是否通过；case 分析还应展示连接为什么失败、规划器改了什么，以及修改是否有效。下面为真实板图和执行轨迹预留位置，当前尚未报告具体案例。
-
-<div class="case-reserve"><div class="case-stage"><span class="slot-index">A / 初始状态</span><div class="case-image-space">待补充电路板图</div><h3>布线在哪里受阻</h3><p>电路板上下文、未解决连接，以及初始引导。</p></div><div class="case-stage"><span class="slot-index">B / 重规划</span><div class="case-image-space">待补充引导对比图</div><h3>规划器修改了什么</h3><p>执行反馈，以及由此产生的通道或换层调整。</p></div><div class="case-stage"><span class="slot-index">C / 最终状态</span><div class="case-image-space">待补充最终布线图</div><h3>评估器得出了什么结果</h3><p>最终连通性、设计规则检查，以及仍未解决的失败。</p></div></div>
-
 ## 距离布线工程师，还有哪些差距？
 
 仍有明显差距。在最大规模测试集上，Opus 版本只通过了 10 块板中的 4 块。平均 Routability 虽然达到 0.949，但较高的平均连通率不意味着整板所有连接都已完成且满足规则。布线紧凑性也有改进空间：在 D3-C 上，相比 Freerouting，整板通过率从 30% 提高到 40%，但线长也增加了 8.2%。
@@ -92,4 +86,4 @@ PCBRouteAgent 包含三个功能组件，由执行控制器管理任务、检查
 - [PCBWorld: A Benchmark Environment for Engine-Grounded PCB Design Automation](https://arxiv.org/abs/2607.05915)
 - [KiCad 官方文档](https://docs.kicad.org/)
 
-本文介绍当前论文稿件。定性 case 分析将在准备好后补充。
+本文介绍当前论文稿件。
