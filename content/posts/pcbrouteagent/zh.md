@@ -88,7 +88,7 @@ PCBRouteAgent 包含三个功能组件，由执行控制器管理任务、检查
 
 ## 相关资源
 
-- PCBRouteAgent 项目代码：后续将在此公布独立仓库地址。
+- [PCBRouteAgent 项目代码](https://github.com/chip-ai-agent/PCBRouteAgent)
 - [PCBWorld: A Benchmark Environment for Engine-Grounded PCB Design Automation](https://arxiv.org/abs/2607.05915)
 - [KiCad 官方文档](https://docs.kicad.org/)
 

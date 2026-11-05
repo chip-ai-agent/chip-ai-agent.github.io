@@ -88,7 +88,7 @@ If you refer to this work, please cite the manuscript below. Publication details
 
 ## Resources
 
-- PCBRouteAgent code: a dedicated repository will be released here.
+- [PCBRouteAgent code](https://github.com/chip-ai-agent/PCBRouteAgent)
 - [PCBWorld: A Benchmark Environment for Engine-Grounded PCB Design Automation](https://arxiv.org/abs/2607.05915)
 - [KiCad documentation](https://docs.kicad.org/)
 
