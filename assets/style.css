@@ -168,6 +168,7 @@ footer a { color: var(--muted); }
 .research-links a:first-child { background: var(--accent); color: var(--bg); border-color: var(--accent); }
 .research-links a:hover { text-decoration: none; border-color: var(--accent); }
 .research-links a span { padding-left: 10px; }
+.research-links .resource-pending { display: inline-flex; align-items: center; border: 1px dashed var(--line); padding: 7px 15px; border-radius: 6px; color: var(--muted); font-size: 14px; }
 .article-layout { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 48px; align-items: start; }
 .article-body { min-width: 0; }
 .article-body img { max-width: 100%; height: auto; }

@@ -27,7 +27,7 @@
   <p class="author-note">* Equal contribution. † Corresponding author.</p>
   <p class="meta"><time datetime="2026-11-04">2026-11-04</time></p>
   <div class="post-tags"><span>PCB routing</span><span>AI agents</span><span>KiCad</span></div>
-  <div class="research-links"><a href="https://github.com/LiqiangJing/RouteAgent">Code<span aria-hidden="true"> ↗</span></a><a href="https://arxiv.org/abs/2607.05915">PCBWorld benchmark<span aria-hidden="true"> ↗</span></a></div>
+  <div class="research-links"><span class="resource-pending" aria-disabled="true">Code · coming soon</span><a href="#citation">Citation<span aria-hidden="true"> ↓</span></a><a href="https://arxiv.org/abs/2607.05915">PCBWorld benchmark<span aria-hidden="true"> ↗</span></a></div>
   </header>
   <div class="article-layout">
   <aside class="article-toc" aria-label="On this page"><p>On this page</p><div class="toc">
@@ -39,6 +39,7 @@
 <li><a href="#is-the-gain-just-a-stronger-model">Is the gain just a stronger model?</a></li>
 <li><a href="#a-closer-look-at-routing-decisions">A closer look at routing decisions</a></li>
 <li><a href="#how-close-are-we-to-a-routing-engineer">How close are we to a routing engineer?</a></li>
+<li><a href="#citation">Citation</a></li>
 <li><a href="#resources">Resources</a></li>
 </ul>
 </div>
@@ -129,9 +130,19 @@
 <h2 id="how-close-are-we-to-a-routing-engineer">How close are we to a routing engineer?</h2>
 <p>There is still a substantial gap. On the largest split, the Opus variant passes four of ten boards. Its mean routability reaches 0.949, but high average connectivity does not guarantee that every connection on a board is complete and clean. Routing compactness also remains a challenge: on D3-C, wirelength is 8.2% higher than Freerouting, while clean pass improves from 30% to 40%.</p>
 <p>These results point toward a useful division of work: let a native router handle physical execution, and use model reasoning to revise board-level decisions when execution provides evidence that they should change. Better completion on large boards, more compact routes, and controlled component ablations are the next questions to investigate.</p>
+<h2 id="citation">Citation</h2>
+<p>If you refer to this work, please cite the manuscript below. Publication details will be updated when available.</p>
+<pre><code class="language-bibtex">@unpublished{zhang2026pcbrouteagent,
+  title  = {{PCBRouteAgent}: How Close Are {LLM} Agents to Becoming {PCB} Routing Engineers?},
+  author = {Zhang, Yue and Sun, Jilei and Jing, Liqiang and Wei, Yijie and Yang, Ruohan},
+  year   = {2026},
+  note   = {Manuscript in preparation}
+}
+</code></pre>
+<p><a href="/assets/research/pcbrouteagent/pcbrouteagent.bib">Download BibTeX</a></p>
 <h2 id="resources">Resources</h2>
 <ul>
-<li><a href="https://github.com/LiqiangJing/RouteAgent">PCBRouteAgent code</a></li>
+<li>PCBRouteAgent code: a dedicated repository will be released here.</li>
 <li><a href="https://arxiv.org/abs/2607.05915">PCBWorld: A Benchmark Environment for Engine-Grounded PCB Design Automation</a></li>
 <li><a href="https://docs.kicad.org/">KiCad documentation</a></li>
 </ul>

@@ -71,9 +71,24 @@ PCBRouteAgent 包含三个功能组件，由执行控制器管理任务、检查
 
 这些结果支持一种分工：由原生布线器处理物理执行，模型则依据执行证据修订整板规划。接下来需要解决的，是大规模电路板上的完整布线、更紧凑的路径，以及对各组件贡献的受控消融研究。
 
+## Citation
+
+如需引用本工作，可以使用以下 BibTeX。目前按准备中的稿件标注，正式公开后将补充论文链接及出版信息。
+
+```bibtex
+@unpublished{zhang2026pcbrouteagent,
+  title  = {{PCBRouteAgent}: How Close Are {LLM} Agents to Becoming {PCB} Routing Engineers?},
+  author = {Zhang, Yue and Sun, Jilei and Jing, Liqiang and Wei, Yijie and Yang, Ruohan},
+  year   = {2026},
+  note   = {Manuscript in preparation}
+}
+```
+
+[下载 BibTeX](/assets/research/pcbrouteagent/pcbrouteagent.bib)
+
 ## 相关资源
 
-- [PCBRouteAgent 项目代码](https://github.com/LiqiangJing/RouteAgent)
+- PCBRouteAgent 项目代码：后续将在此公布独立仓库地址。
 - [PCBWorld: A Benchmark Environment for Engine-Grounded PCB Design Automation](https://arxiv.org/abs/2607.05915)
 - [KiCad 官方文档](https://docs.kicad.org/)
 

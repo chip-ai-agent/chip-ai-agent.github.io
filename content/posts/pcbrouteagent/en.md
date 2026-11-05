@@ -71,9 +71,24 @@ There is still a substantial gap. On the largest split, the Opus variant passes 
 
 These results point toward a useful division of work: let a native router handle physical execution, and use model reasoning to revise board-level decisions when execution provides evidence that they should change. Better completion on large boards, more compact routes, and controlled component ablations are the next questions to investigate.
 
+## Citation
+
+If you refer to this work, please cite the manuscript below. Publication details will be updated when available.
+
+```bibtex
+@unpublished{zhang2026pcbrouteagent,
+  title  = {{PCBRouteAgent}: How Close Are {LLM} Agents to Becoming {PCB} Routing Engineers?},
+  author = {Zhang, Yue and Sun, Jilei and Jing, Liqiang and Wei, Yijie and Yang, Ruohan},
+  year   = {2026},
+  note   = {Manuscript in preparation}
+}
+```
+
+[Download BibTeX](/assets/research/pcbrouteagent/pcbrouteagent.bib)
+
 ## Resources
 
-- [PCBRouteAgent code](https://github.com/LiqiangJing/RouteAgent)
+- PCBRouteAgent code: a dedicated repository will be released here.
 - [PCBWorld: A Benchmark Environment for Engine-Grounded PCB Design Automation](https://arxiv.org/abs/2607.05915)
 - [KiCad documentation](https://docs.kicad.org/)
 

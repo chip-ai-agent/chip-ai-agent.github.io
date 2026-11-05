@@ -135,7 +135,16 @@ def build_post(site: dict, post: dict, lang: str) -> None:
     affiliations = " · ".join(html.escape(name) for name in post["affiliations"])
     byline = f'<p class="research-authors">{authors}</p><p class="research-affiliations">{affiliations}</p>' if authors else ""
     author_note = html.escape(post['author_note'].get(lang, ''))
-    links = "".join(f'<a href="{html.escape(link["url"], quote=True)}">{html.escape(link["label"][lang])}<span aria-hidden="true"> ↗</span></a>' for link in post['links'])
+    resource_links = []
+    for link in post['links']:
+        label = html.escape(link['label'][lang])
+        url = link.get('url')
+        if url:
+            arrow = '↓' if url.startswith('#') else '↗'
+            resource_links.append(f'<a href="{html.escape(url, quote=True)}">{label}<span aria-hidden="true"> {arrow}</span></a>')
+        else:
+            resource_links.append(f'<span class="resource-pending" aria-disabled="true">{label}</span>')
+    links = ''.join(resource_links)
     toc_label = 'On this page' if lang == 'en' else '本文内容'
     body = f"""<main class="wrap doc research-article">
   <p class="back"><a href="{rel(depth)}{PREFIX[lang]}#research">{t['back']}</a></p>
