@@ -63,7 +63,7 @@
 <li><strong>Feedback-Driven Replanning（反馈驱动重规划）。</strong> 局部恢复仍不能完成连接时，收集执行证据与未解决目标，由同一个全局规划器修订相关引导，再从一致的电路板状态继续执行。</li>
 </ol>
 <p>这样分工的意义在于：模型不必细管每一步走线。原生引擎负责几何执行，模型则在需要整板视角时重新审视规划决策。</p>
-<figure class="article-figure"><a class="figure-link" href="/assets/research/pcbrouteagent/framework.png" aria-label="查看原图"><img src="/assets/research/pcbrouteagent/framework.png" alt="PCBRouteAgent 框架概览，展示全局布线规划、引导执行与反馈重规划。" width="1448" height="1086" loading="lazy" decoding="async"></a><figcaption><span>PCBRouteAgent 框架概览。</span><a href="/assets/research/pcbrouteagent/framework.png">查看原图 ↗</a></figcaption></figure>
+<figure class="article-figure"><a class="figure-link" href="/assets/research/pcbrouteagent/framework.png?v=3c60615" aria-label="查看原图"><img src="/assets/research/pcbrouteagent/framework.png?v=3c60615" alt="PCBRouteAgent 框架概览，展示全局布线规划、引导执行与反馈重规划。" width="2600" height="993" loading="lazy" decoding="async"></a><figcaption><span>PCBRouteAgent 框架概览。</span><a href="/assets/research/pcbrouteagent/framework.png?v=3c60615">查看原图 ↗</a></figcaption></figure>
 
 <h2 id="_3">这个框架能完成更多电路板吗？</h2>
 <p>我们在 PCBWorld-Bench 的 <strong>247 块板</strong>上评估：128 块合成 D2 电路板、99 块小规模真实 D3-A 电路板、10 块中规模 D3-B 电路板，以及 10 块大规模 D3-C 电路板。下面的主要指标为 <strong>Clean Pass（整板通过率）</strong>：全部必需连接完成且没有错误级设计规则违规的电路板比例。</p>
@@ -146,7 +146,7 @@
 <li><a href="https://arxiv.org/abs/2607.05915">PCBWorld: A Benchmark Environment for Engine-Grounded PCB Design Automation</a></li>
 <li><a href="https://docs.kicad.org/">KiCad 官方文档</a></li>
 </ul>
-<p>本文介绍当前论文稿件。方法图为当前示意版本，后续会更新；定性 case 分析将在准备好后补充。</p>
+<p>本文介绍当前论文稿件。定性 case 分析将在准备好后补充。</p>
   </article>
   </div>
 </main>

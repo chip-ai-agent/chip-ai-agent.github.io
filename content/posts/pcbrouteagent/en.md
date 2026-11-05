@@ -26,7 +26,7 @@ PCBRouteAgent has three functional components. An execution controller manages r
 
 The distinction matters: the language model does not need to micromanage every routing step. The native engine handles geometry, while the model revisits decisions that require a broader view of the board.
 
-<figure class="article-figure"><a class="figure-link" href="/assets/research/pcbrouteagent/framework.png" aria-label="View full size"><img src="/assets/research/pcbrouteagent/framework.png" alt="Overview of PCBRouteAgent, showing global routing planning, guided execution, and feedback-driven replanning." width="1448" height="1086" loading="lazy" decoding="async"></a><figcaption><span>Overview of PCBRouteAgent.</span><a href="/assets/research/pcbrouteagent/framework.png">View full size ↗</a></figcaption></figure>
+<figure class="article-figure"><a class="figure-link" href="/assets/research/pcbrouteagent/framework.png?v=3c60615" aria-label="View full size"><img src="/assets/research/pcbrouteagent/framework.png?v=3c60615" alt="Overview of PCBRouteAgent, showing global routing planning, guided execution, and feedback-driven replanning." width="2600" height="993" loading="lazy" decoding="async"></a><figcaption><span>Overview of PCBRouteAgent.</span><a href="/assets/research/pcbrouteagent/framework.png?v=3c60615">View full size ↗</a></figcaption></figure>
 
 ## Does the framework complete more boards?
 
@@ -92,4 +92,4 @@ If you refer to this work, please cite the manuscript below. Publication details
 - [PCBWorld: A Benchmark Environment for Engine-Grounded PCB Design Automation](https://arxiv.org/abs/2607.05915)
 - [KiCad documentation](https://docs.kicad.org/)
 
-This research note summarizes our current manuscript. The architecture illustration is preliminary and will be updated; qualitative case studies will be added as they become available.
+This research note summarizes our current manuscript. Qualitative case studies will be added as they become available.

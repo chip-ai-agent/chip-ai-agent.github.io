@@ -26,7 +26,7 @@ PCBRouteAgent 包含三个功能组件，由执行控制器管理任务、检查
 
 这样分工的意义在于：模型不必细管每一步走线。原生引擎负责几何执行，模型则在需要整板视角时重新审视规划决策。
 
-<figure class="article-figure"><a class="figure-link" href="/assets/research/pcbrouteagent/framework.png" aria-label="查看原图"><img src="/assets/research/pcbrouteagent/framework.png" alt="PCBRouteAgent 框架概览，展示全局布线规划、引导执行与反馈重规划。" width="1448" height="1086" loading="lazy" decoding="async"></a><figcaption><span>PCBRouteAgent 框架概览。</span><a href="/assets/research/pcbrouteagent/framework.png">查看原图 ↗</a></figcaption></figure>
+<figure class="article-figure"><a class="figure-link" href="/assets/research/pcbrouteagent/framework.png?v=3c60615" aria-label="查看原图"><img src="/assets/research/pcbrouteagent/framework.png?v=3c60615" alt="PCBRouteAgent 框架概览，展示全局布线规划、引导执行与反馈重规划。" width="2600" height="993" loading="lazy" decoding="async"></a><figcaption><span>PCBRouteAgent 框架概览。</span><a href="/assets/research/pcbrouteagent/framework.png?v=3c60615">查看原图 ↗</a></figcaption></figure>
 
 ## 这个框架能完成更多电路板吗？
 
@@ -92,4 +92,4 @@ PCBRouteAgent 包含三个功能组件，由执行控制器管理任务、检查
 - [PCBWorld: A Benchmark Environment for Engine-Grounded PCB Design Automation](https://arxiv.org/abs/2607.05915)
 - [KiCad 官方文档](https://docs.kicad.org/)
 
-本文介绍当前论文稿件。方法图为当前示意版本，后续会更新；定性 case 分析将在准备好后补充。
+本文介绍当前论文稿件。定性 case 分析将在准备好后补充。
