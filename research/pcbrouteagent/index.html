@@ -27,7 +27,7 @@
   <p class="author-note">* Equal contribution. † Corresponding author.</p>
   <p class="meta"><time datetime="2026-11-04">2026-11-04</time></p>
   <div class="post-tags"><span>PCB routing</span><span>AI agents</span><span>KiCad</span></div>
-  <div class="research-links"><a href="https://github.com/chip-ai-agent/PCBRouteAgent">Code<span aria-hidden="true"> ↗</span></a><a href="#citation">Citation<span aria-hidden="true"> ↓</span></a><a href="https://arxiv.org/abs/2607.05915">PCBWorld benchmark<span aria-hidden="true"> ↗</span></a></div>
+  <div class="research-links"><span class="resource-pending" aria-disabled="true">arXiv · awaiting announcement</span><a href="https://github.com/chip-ai-agent/PCBRouteAgent">Code<span aria-hidden="true"> ↗</span></a><a href="#citation">Citation<span aria-hidden="true"> ↓</span></a><a href="https://arxiv.org/abs/2607.05915">PCBWorld benchmark<span aria-hidden="true"> ↗</span></a></div>
   </header>
   <div class="article-layout">
   <aside class="article-toc" aria-label="On this page"><p>On this page</p><div class="toc">
@@ -36,7 +36,13 @@
 <li><a href="#why-separate-planning-from-execution">Why separate planning from execution?</a></li>
 <li><a href="#plan-globally-route-locally-revise-with-feedback">Plan globally, route locally, revise with feedback</a></li>
 <li><a href="#does-the-framework-complete-more-boards">Does the framework complete more boards?</a></li>
+<li><a href="#what-changes-beyond-clean-pass">What changes beyond clean pass?</a></li>
 <li><a href="#is-the-gain-just-a-stronger-model">Is the gain just a stronger model?</a></li>
+<li><a href="#how-much-computation-does-routing-require">How much computation does routing require?</a><ul>
+<li><a href="#across-all-247-boards">Across all 247 boards</a></li>
+<li><a href="#cost-relative-to-completed-work">Cost relative to completed work</a></li>
+</ul>
+</li>
 <li><a href="#how-close-are-we-to-a-routing-engineer">How close are we to a routing engineer?</a></li>
 <li><a href="#citation">Citation</a></li>
 <li><a href="#resources">Resources</a></li>
@@ -110,6 +116,89 @@
 <p>On the three real-world splits, the Opus variant improves clean pass over the best evaluated baseline by <strong>13.9, 36, and 10 percentage points</strong>. On D2, it matches the full completion achieved by the strongest baselines.</p>
 <details class="evaluation-note"><summary>Evaluation details and the meaning of “baseline”</summary><p>D2, D3-A, and D3-B published baseline values follow PCBWorld Table 22 (@1); the Haiku interactive baseline and all D3-C results are evaluated locally. D3-B PCBRouteAgent results include retries of unscored model-response failures and angle repair. “Best evaluated baseline” excludes Reference, which scores the retained original routed designs rather than running an automatic router. Published baseline means can reflect a different aggregation from our single scored board per instance.</p></details>
 
+<h2 id="what-changes-beyond-clean-pass">What changes beyond clean pass?</h2>
+<p>Clean pass measures complete success at the board level. To see how routes differ, we also compare <strong>routability</strong> (the fraction of required connections completed), mean <strong>DRV</strong> count, wirelength, and via count. Below, PCBRouteAgent uses Claude Opus 5.5 and is compared with Freerouting, the strongest evaluated rule-based baseline in clean pass on the real-world splits. Bold marks the better value within each pair; ties share the formatting.</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th style="text-align: left;">Split</th>
+<th style="text-align: left;">Method</th>
+<th style="text-align: right;">Rout. ↑</th>
+<th style="text-align: right;">DRV ↓</th>
+<th style="text-align: right;">Wirelength (mm) ↓</th>
+<th style="text-align: right;">Vias ↓</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">D2</td>
+<td style="text-align: left;">Freerouting</td>
+<td style="text-align: right;"><strong>1.000</strong></td>
+<td style="text-align: right;"><strong>0.00</strong></td>
+<td style="text-align: right;">409.8</td>
+<td style="text-align: right;">2.48</td>
+</tr>
+<tr>
+<td style="text-align: left;">D2</td>
+<td style="text-align: left;">PCBRouteAgent · Opus</td>
+<td style="text-align: right;"><strong>1.000</strong></td>
+<td style="text-align: right;"><strong>0.00</strong></td>
+<td style="text-align: right;"><strong>392.5</strong></td>
+<td style="text-align: right;"><strong>1.99</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">D3-A</td>
+<td style="text-align: left;">Freerouting</td>
+<td style="text-align: right;">0.900</td>
+<td style="text-align: right;">1.08</td>
+<td style="text-align: right;"><strong>156.6</strong></td>
+<td style="text-align: right;">0.86</td>
+</tr>
+<tr>
+<td style="text-align: left;">D3-A</td>
+<td style="text-align: left;">PCBRouteAgent · Opus</td>
+<td style="text-align: right;"><strong>0.994</strong></td>
+<td style="text-align: right;"><strong>0.09</strong></td>
+<td style="text-align: right;">165.5</td>
+<td style="text-align: right;"><strong>0.79</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">D3-B</td>
+<td style="text-align: left;">Freerouting</td>
+<td style="text-align: right;">0.990</td>
+<td style="text-align: right;">11.94</td>
+<td style="text-align: right;"><strong>533.5</strong></td>
+<td style="text-align: right;"><strong>3.88</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">D3-B</td>
+<td style="text-align: left;">PCBRouteAgent · Opus</td>
+<td style="text-align: right;"><strong>1.000</strong></td>
+<td style="text-align: right;"><strong>0.00</strong></td>
+<td style="text-align: right;">591.6</td>
+<td style="text-align: right;">4.00</td>
+</tr>
+<tr>
+<td style="text-align: left;">D3-C</td>
+<td style="text-align: left;">Freerouting</td>
+<td style="text-align: right;">0.918</td>
+<td style="text-align: right;">32.00</td>
+<td style="text-align: right;"><strong>1304.0</strong></td>
+<td style="text-align: right;">21.40</td>
+</tr>
+<tr>
+<td style="text-align: left;">D3-C</td>
+<td style="text-align: left;">PCBRouteAgent · Opus</td>
+<td style="text-align: right;"><strong>0.949</strong></td>
+<td style="text-align: right;"><strong>6.30</strong></td>
+<td style="text-align: right;">1410.5</td>
+<td style="text-align: right;"><strong>21.30</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>On <strong>D3-A</strong>, routability increases from 0.900 to 0.994 and mean DRV decreases from 1.08 to 0.09. On <strong>D3-B</strong>, PCBRouteAgent reaches full connectivity and zero DRV across all ten boards. These results show that the higher clean-pass rate is accompanied by better completion and fewer reported violations.</p>
+<p>On <strong>D3-C</strong>, mean routability rises from 0.918 to 0.949 and DRV falls from 32.00 to 6.30, an <strong>80.3% reduction</strong>. Yet only four of ten boards pass. This highlights the strictness of board-level success: even a small number of remaining connections can prevent a nearly routed board from passing.</p>
+<p>Physical routing cost presents a tradeoff. The Opus variant uses <strong>10.9% more wirelength on D3-B</strong> and <strong>8.2% more on D3-C</strong> than Freerouting while completing more boards. A lower wirelength alone does not establish better routing, since incomplete solutions can leave less copper on the board. Completion, rule compliance, and physical cost need to be assessed together.</p>
 <h2 id="is-the-gain-just-a-stronger-model">Is the gain just a stronger model?</h2>
 <p>We also compare PCBRouteAgent and PCBWorld's interactive agent using the <strong>same Claude Haiku 5.5 backbone</strong>. This tests whether the overall agent framework helps when model choice is held fixed.</p>
 <div class="comparison-key"><span><i class="baseline-key"></i>PCBWorld · Haiku</span><span><i class="ours-key"></i>PCBRouteAgent · Haiku</span><span>Clean pass · higher is better</span></div>
@@ -122,16 +211,141 @@
 
 <p>The improvement holds across all four splits. It supports the effectiveness of the overall planning–execution framework beyond the choice of model backbone, although this comparison does not isolate the contribution of each component or equalize interaction budgets.</p>
 <p>We do not conduct a full PCBWorld–Opus evaluation because we verified that its per-step model invocation incurs substantially higher API costs than PCBRouteAgent. The shared-Haiku comparison provides evidence without relying on an unmeasured Opus baseline.</p>
+<h2 id="how-much-computation-does-routing-require">How much computation does routing require?</h2>
+<p>The following comparison uses <strong>Claude Haiku 5.5 for both frameworks under the same local evaluation conditions and timing scope</strong>. Values are per-board means, including boards that do not pass. Input and output tokens are in thousands (k), and costs are recorded API charges.</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th style="text-align: left;">Split</th>
+<th style="text-align: left;">Method</th>
+<th style="text-align: right;">Time (s)</th>
+<th style="text-align: right;">Calls</th>
+<th style="text-align: right;">Input (k)</th>
+<th style="text-align: right;">Output (k)</th>
+<th style="text-align: right;">Cost ($)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">D2</td>
+<td style="text-align: left;">PCBWorld</td>
+<td style="text-align: right;">188.0</td>
+<td style="text-align: right;">43.20</td>
+<td style="text-align: right;">45.8</td>
+<td style="text-align: right;">38.9</td>
+<td style="text-align: right;">0.0240</td>
+</tr>
+<tr>
+<td style="text-align: left;">D2</td>
+<td style="text-align: left;">PCBRouteAgent</td>
+<td style="text-align: right;"><strong>0.8</strong></td>
+<td style="text-align: right;"><strong>0.05</strong></td>
+<td style="text-align: right;"><strong>1.6</strong></td>
+<td style="text-align: right;"><strong>0.1</strong></td>
+<td style="text-align: right;"><strong>0.0002</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">D3-A</td>
+<td style="text-align: left;">PCBWorld</td>
+<td style="text-align: right;">436.0</td>
+<td style="text-align: right;">76.60</td>
+<td style="text-align: right;">112.6</td>
+<td style="text-align: right;">88.1</td>
+<td style="text-align: right;">0.0553</td>
+</tr>
+<tr>
+<td style="text-align: left;">D3-A</td>
+<td style="text-align: left;">PCBRouteAgent</td>
+<td style="text-align: right;"><strong>27.0</strong></td>
+<td style="text-align: right;"><strong>0.87</strong></td>
+<td style="text-align: right;"><strong>19.9</strong></td>
+<td style="text-align: right;"><strong>5.8</strong></td>
+<td style="text-align: right;"><strong>0.0048</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">D3-B</td>
+<td style="text-align: left;">PCBWorld</td>
+<td style="text-align: right;">1817.0</td>
+<td style="text-align: right;">263.90</td>
+<td style="text-align: right;">900.0</td>
+<td style="text-align: right;">352.0</td>
+<td style="text-align: right;">0.2660</td>
+</tr>
+<tr>
+<td style="text-align: left;">D3-B</td>
+<td style="text-align: left;">PCBRouteAgent</td>
+<td style="text-align: right;"><strong>146.0</strong></td>
+<td style="text-align: right;"><strong>2.90</strong></td>
+<td style="text-align: right;"><strong>163.0</strong></td>
+<td style="text-align: right;"><strong>30.0</strong></td>
+<td style="text-align: right;"><strong>0.0330</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">D3-C</td>
+<td style="text-align: left;">PCBWorld</td>
+<td style="text-align: right;">4566.0</td>
+<td style="text-align: right;">676.60</td>
+<td style="text-align: right;">5430.0</td>
+<td style="text-align: right;">816.0</td>
+<td style="text-align: right;">0.9510</td>
+</tr>
+<tr>
+<td style="text-align: left;">D3-C</td>
+<td style="text-align: left;">PCBRouteAgent</td>
+<td style="text-align: right;"><strong>516.0</strong></td>
+<td style="text-align: right;"><strong>5.10</strong></td>
+<td style="text-align: right;"><strong>666.0</strong></td>
+<td style="text-align: right;"><strong>62.0</strong></td>
+<td style="text-align: right;"><strong>0.3930</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>PCBRouteAgent requires fewer model calls, fewer tokens, less time, and lower API cost on every split. On D2, mean model calls decrease from <strong>43.20 to 0.05</strong>; on D3-C, they decrease from <strong>676.60 to 5.10</strong>. Fewer than one call per board is possible because many boards finish with scripted guide initialization and native execution, without requiring a model-driven guide revision.</p>
+<h3 id="across-all-247-boards">Across all 247 boards</h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th style="text-align: left;">Method</th>
+<th style="text-align: right;">Model calls</th>
+<th style="text-align: right;">Input tokens</th>
+<th style="text-align: right;">Output tokens</th>
+<th style="text-align: right;">API cost</th>
+<th style="text-align: right;">Cumulative time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">PCBWorld · Haiku</td>
+<td style="text-align: right;">22,529</td>
+<td style="text-align: right;">80.3M</td>
+<td style="text-align: right;">25.4M</td>
+<td style="text-align: right;">$20.72</td>
+<td style="text-align: right;">36.4 h</td>
+</tr>
+<tr>
+<td style="text-align: left;">PCBRouteAgent · Haiku</td>
+<td style="text-align: right;"><strong>172</strong></td>
+<td style="text-align: right;"><strong>10.5M</strong></td>
+<td style="text-align: right;"><strong>1.5M</strong></td>
+<td style="text-align: right;"><strong>$4.77</strong></td>
+<td style="text-align: right;"><strong>2.6 h</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>Across the full benchmark, this is approximately <strong>131× fewer model calls</strong>, <strong>8.8× lower combined token usage</strong>, <strong>4.3× lower API cost</strong>, and <strong>14× lower cumulative runtime</strong>. Cumulative time sums the elapsed time of individual boards; it is not the duration of a parallel batch. These resource reductions accompany higher clean-pass rates on all four splits.</p>
+<h3 id="cost-relative-to-completed-work">Cost relative to completed work</h3>
+<p>The token savings also hold when measured per connected target edge: <strong>11,374 → 202</strong> tokens on D2, <strong>22,079 → 1,972</strong> on D3-A, <strong>65,545 → 4,355</strong> on D3-B, and <strong>269,324 → 6,744</strong> on D3-C. This metric divides all input and output tokens by the total number of connected target edges in each split.</p>
+<p>Low per-board cost does not guarantee low cost per successful board. On D3-C, PCBRouteAgent costs $0.393 per board, but only one of ten Haiku boards passes; dividing the total cost by the number of passes gives <strong>$3.93 per clean-pass board</strong>. PCBWorld–Haiku has no clean-pass boards on D3-B or D3-C, so its cost per clean-pass board is undefined there. Improving reliable completion on large boards therefore remains important for both routing quality and efficiency.</p>
 <h2 id="how-close-are-we-to-a-routing-engineer">How close are we to a routing engineer?</h2>
 <p>There is still a substantial gap. On the largest split, the Opus variant passes four of ten boards. Its mean routability reaches 0.949, but high average connectivity does not guarantee that every connection on a board is complete and clean. Routing compactness also remains a challenge: on D3-C, wirelength is 8.2% higher than Freerouting, while clean pass improves from 30% to 40%.</p>
 <p>These results point toward a useful division of work: let a native router handle physical execution, and use model reasoning to revise board-level decisions when execution provides evidence that they should change. Better completion on large boards, more compact routes, and controlled component ablations are the next questions to investigate.</p>
 <h2 id="citation">Citation</h2>
-<p>If you refer to this work, please cite the manuscript below. Publication details will be updated when available.</p>
+<p>This manuscript has been submitted to arXiv and is awaiting announcement. You can use the BibTeX below; the public paper link and identifier will be added once available.</p>
 <pre><code class="language-bibtex">@unpublished{zhang2026pcbrouteagent,
   title  = {{PCBRouteAgent}: How Close Are {LLM} Agents to Becoming {PCB} Routing Engineers?},
   author = {Zhang, Yue and Sun, Jilei and Jing, Liqiang and Wei, Yijie and Yang, Ruohan},
   year   = {2026},
-  note   = {Manuscript in preparation}
+  note   = {Submitted to arXiv; awaiting announcement}
 }
 </code></pre>
 <p><a href="/assets/research/pcbrouteagent/pcbrouteagent.bib">Download BibTeX</a></p>

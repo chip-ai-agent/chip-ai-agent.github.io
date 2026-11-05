@@ -43,6 +43,27 @@ On the three real-world splits, the Opus variant improves clean pass over the be
 
 <details class="evaluation-note"><summary>Evaluation details and the meaning of “baseline”</summary><p>D2, D3-A, and D3-B published baseline values follow PCBWorld Table 22 (@1); the Haiku interactive baseline and all D3-C results are evaluated locally. D3-B PCBRouteAgent results include retries of unscored model-response failures and angle repair. “Best evaluated baseline” excludes Reference, which scores the retained original routed designs rather than running an automatic router. Published baseline means can reflect a different aggregation from our single scored board per instance.</p></details>
 
+## What changes beyond clean pass?
+
+Clean pass measures complete success at the board level. To see how routes differ, we also compare **routability** (the fraction of required connections completed), mean **DRV** count, wirelength, and via count. Below, PCBRouteAgent uses Claude Opus 5.5 and is compared with Freerouting, the strongest evaluated rule-based baseline in clean pass on the real-world splits. Bold marks the better value within each pair; ties share the formatting.
+
+| Split | Method | Rout. ↑ | DRV ↓ | Wirelength (mm) ↓ | Vias ↓ |
+| :--- | :--- | ---: | ---: | ---: | ---: |
+| D2 | Freerouting | **1.000** | **0.00** | 409.8 | 2.48 |
+| D2 | PCBRouteAgent · Opus | **1.000** | **0.00** | **392.5** | **1.99** |
+| D3-A | Freerouting | 0.900 | 1.08 | **156.6** | 0.86 |
+| D3-A | PCBRouteAgent · Opus | **0.994** | **0.09** | 165.5 | **0.79** |
+| D3-B | Freerouting | 0.990 | 11.94 | **533.5** | **3.88** |
+| D3-B | PCBRouteAgent · Opus | **1.000** | **0.00** | 591.6 | 4.00 |
+| D3-C | Freerouting | 0.918 | 32.00 | **1304.0** | 21.40 |
+| D3-C | PCBRouteAgent · Opus | **0.949** | **6.30** | 1410.5 | **21.30** |
+
+On **D3-A**, routability increases from 0.900 to 0.994 and mean DRV decreases from 1.08 to 0.09. On **D3-B**, PCBRouteAgent reaches full connectivity and zero DRV across all ten boards. These results show that the higher clean-pass rate is accompanied by better completion and fewer reported violations.
+
+On **D3-C**, mean routability rises from 0.918 to 0.949 and DRV falls from 32.00 to 6.30, an **80.3% reduction**. Yet only four of ten boards pass. This highlights the strictness of board-level success: even a small number of remaining connections can prevent a nearly routed board from passing.
+
+Physical routing cost presents a tradeoff. The Opus variant uses **10.9% more wirelength on D3-B** and **8.2% more on D3-C** than Freerouting while completing more boards. A lower wirelength alone does not establish better routing, since incomplete solutions can leave less copper on the board. Completion, rule compliance, and physical cost need to be assessed together.
+
 ## Is the gain just a stronger model?
 
 We also compare PCBRouteAgent and PCBWorld's interactive agent using the **same Claude Haiku 5.5 backbone**. This tests whether the overall agent framework helps when model choice is held fixed.
@@ -59,6 +80,38 @@ The improvement holds across all four splits. It supports the effectiveness of t
 
 We do not conduct a full PCBWorld–Opus evaluation because we verified that its per-step model invocation incurs substantially higher API costs than PCBRouteAgent. The shared-Haiku comparison provides evidence without relying on an unmeasured Opus baseline.
 
+## How much computation does routing require?
+
+The following comparison uses **Claude Haiku 5.5 for both frameworks under the same local evaluation conditions and timing scope**. Values are per-board means, including boards that do not pass. Input and output tokens are in thousands (k), and costs are recorded API charges.
+
+| Split | Method | Time (s) | Calls | Input (k) | Output (k) | Cost ($) |
+| :--- | :--- | ---: | ---: | ---: | ---: | ---: |
+| D2 | PCBWorld | 188.0 | 43.20 | 45.8 | 38.9 | 0.0240 |
+| D2 | PCBRouteAgent | **0.8** | **0.05** | **1.6** | **0.1** | **0.0002** |
+| D3-A | PCBWorld | 436.0 | 76.60 | 112.6 | 88.1 | 0.0553 |
+| D3-A | PCBRouteAgent | **27.0** | **0.87** | **19.9** | **5.8** | **0.0048** |
+| D3-B | PCBWorld | 1817.0 | 263.90 | 900.0 | 352.0 | 0.2660 |
+| D3-B | PCBRouteAgent | **146.0** | **2.90** | **163.0** | **30.0** | **0.0330** |
+| D3-C | PCBWorld | 4566.0 | 676.60 | 5430.0 | 816.0 | 0.9510 |
+| D3-C | PCBRouteAgent | **516.0** | **5.10** | **666.0** | **62.0** | **0.3930** |
+
+PCBRouteAgent requires fewer model calls, fewer tokens, less time, and lower API cost on every split. On D2, mean model calls decrease from **43.20 to 0.05**; on D3-C, they decrease from **676.60 to 5.10**. Fewer than one call per board is possible because many boards finish with scripted guide initialization and native execution, without requiring a model-driven guide revision.
+
+### Across all 247 boards
+
+| Method | Model calls | Input tokens | Output tokens | API cost | Cumulative time |
+| :--- | ---: | ---: | ---: | ---: | ---: |
+| PCBWorld · Haiku | 22,529 | 80.3M | 25.4M | $20.72 | 36.4 h |
+| PCBRouteAgent · Haiku | **172** | **10.5M** | **1.5M** | **$4.77** | **2.6 h** |
+
+Across the full benchmark, this is approximately **131× fewer model calls**, **8.8× lower combined token usage**, **4.3× lower API cost**, and **14× lower cumulative runtime**. Cumulative time sums the elapsed time of individual boards; it is not the duration of a parallel batch. These resource reductions accompany higher clean-pass rates on all four splits.
+
+### Cost relative to completed work
+
+The token savings also hold when measured per connected target edge: **11,374 → 202** tokens on D2, **22,079 → 1,972** on D3-A, **65,545 → 4,355** on D3-B, and **269,324 → 6,744** on D3-C. This metric divides all input and output tokens by the total number of connected target edges in each split.
+
+Low per-board cost does not guarantee low cost per successful board. On D3-C, PCBRouteAgent costs $0.393 per board, but only one of ten Haiku boards passes; dividing the total cost by the number of passes gives **$3.93 per clean-pass board**. PCBWorld–Haiku has no clean-pass boards on D3-B or D3-C, so its cost per clean-pass board is undefined there. Improving reliable completion on large boards therefore remains important for both routing quality and efficiency.
+
 ## How close are we to a routing engineer?
 
 There is still a substantial gap. On the largest split, the Opus variant passes four of ten boards. Its mean routability reaches 0.949, but high average connectivity does not guarantee that every connection on a board is complete and clean. Routing compactness also remains a challenge: on D3-C, wirelength is 8.2% higher than Freerouting, while clean pass improves from 30% to 40%.
@@ -67,14 +120,14 @@ These results point toward a useful division of work: let a native router handle
 
 ## Citation
 
-If you refer to this work, please cite the manuscript below. Publication details will be updated when available.
+This manuscript has been submitted to arXiv and is awaiting announcement. You can use the BibTeX below; the public paper link and identifier will be added once available.
 
 ```bibtex
 @unpublished{zhang2026pcbrouteagent,
   title  = {{PCBRouteAgent}: How Close Are {LLM} Agents to Becoming {PCB} Routing Engineers?},
   author = {Zhang, Yue and Sun, Jilei and Jing, Liqiang and Wei, Yijie and Yang, Ruohan},
   year   = {2026},
-  note   = {Manuscript in preparation}
+  note   = {Submitted to arXiv; awaiting announcement}
 }
 ```
 

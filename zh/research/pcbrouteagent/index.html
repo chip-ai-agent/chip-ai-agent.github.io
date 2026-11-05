@@ -27,7 +27,7 @@
   <p class="author-note">* 共同第一作者。† 通信作者。</p>
   <p class="meta"><time datetime="2026-11-04">2026-11-04</time></p>
   <div class="post-tags"><span>PCB 布线</span><span>AI agent</span><span>KiCad</span></div>
-  <div class="research-links"><a href="https://github.com/chip-ai-agent/PCBRouteAgent">项目代码<span aria-hidden="true"> ↗</span></a><a href="#citation">引用本文<span aria-hidden="true"> ↓</span></a><a href="https://arxiv.org/abs/2607.05915">PCBWorld 基准<span aria-hidden="true"> ↗</span></a></div>
+  <div class="research-links"><span class="resource-pending" aria-disabled="true">arXiv · 待公开</span><a href="https://github.com/chip-ai-agent/PCBRouteAgent">项目代码<span aria-hidden="true"> ↗</span></a><a href="#citation">引用本文<span aria-hidden="true"> ↓</span></a><a href="https://arxiv.org/abs/2607.05915">PCBWorld 基准<span aria-hidden="true"> ↗</span></a></div>
   </header>
   <div class="article-layout">
   <aside class="article-toc" aria-label="本文内容"><p>本文内容</p><div class="toc">
@@ -36,10 +36,16 @@
 <li><a href="#_1">为什么要把规划和执行分开？</a></li>
 <li><a href="#_2">全局规划、局部布线，再根据反馈修订</a></li>
 <li><a href="#_3">这个框架能完成更多电路板吗？</a></li>
-<li><a href="#_4">提升是不是只来自更强的模型？</a></li>
-<li><a href="#_5">距离布线工程师，还有哪些差距？</a></li>
+<li><a href="#_4">除了整板通过率，还有哪些变化？</a></li>
+<li><a href="#_5">提升是不是只来自更强的模型？</a></li>
+<li><a href="#_6">完成布线，需要多少计算资源？</a><ul>
+<li><a href="#247">全部 247 块板的累计消耗</a></li>
+<li><a href="#_7">相对于实际完成量的成本</a></li>
+</ul>
+</li>
+<li><a href="#_8">距离布线工程师，还有哪些差距？</a></li>
 <li><a href="#citation">Citation</a></li>
-<li><a href="#_6">相关资源</a></li>
+<li><a href="#_9">相关资源</a></li>
 </ul>
 </div>
 </aside>
@@ -110,7 +116,90 @@
 <p>在三个真实电路板测试集上，Opus 版本分别比最佳已评估基线提高 <strong>13.9、36 和 10 个百分点</strong>；在 D2 上，与最强基线一样实现全部通过。</p>
 <details class="evaluation-note"><summary>评估细节：“基线”和 Reference 分别指什么？</summary><p>D2、D3-A 和 D3-B 的公开基线采用 PCBWorld 表 22 的 @1 结果；Haiku 交互式基线及全部 D3-C 结果为本地评估。D3-B 的 PCBRouteAgent 结果包含未进入评分的模型响应失败重试和角度修复。“最佳已评估基线”不包括 Reference：后者评估公开数据集中保留的原始已布线设计，并不是重新运行自动布线器得到的结果。公开基线均值的聚合方式可能与我们每个实例提交一块板评分的方式不同。</p></details>
 
-<h2 id="_4">提升是不是只来自更强的模型？</h2>
+<h2 id="_4">除了整板通过率，还有哪些变化？</h2>
+<p>整板通过率衡量一块板是否完整成功。为了看清布线质量，我们还比较 <strong>Routability（必需连接的完成比例）</strong>、平均 <strong>DRV</strong>、线长和过孔数。下表使用 Claude Opus 5.5 版本的 PCBRouteAgent，与真实板测试集上整板通过率最高的已评估规则式基线 Freerouting 对比。同一测试集内较好的数值加粗，并列时共同加粗。</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th style="text-align: left;">测试集</th>
+<th style="text-align: left;">方法</th>
+<th style="text-align: right;">Rout. ↑</th>
+<th style="text-align: right;">DRV ↓</th>
+<th style="text-align: right;">线长（mm）↓</th>
+<th style="text-align: right;">过孔数 ↓</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">D2</td>
+<td style="text-align: left;">Freerouting</td>
+<td style="text-align: right;"><strong>1.000</strong></td>
+<td style="text-align: right;"><strong>0.00</strong></td>
+<td style="text-align: right;">409.8</td>
+<td style="text-align: right;">2.48</td>
+</tr>
+<tr>
+<td style="text-align: left;">D2</td>
+<td style="text-align: left;">PCBRouteAgent · Opus</td>
+<td style="text-align: right;"><strong>1.000</strong></td>
+<td style="text-align: right;"><strong>0.00</strong></td>
+<td style="text-align: right;"><strong>392.5</strong></td>
+<td style="text-align: right;"><strong>1.99</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">D3-A</td>
+<td style="text-align: left;">Freerouting</td>
+<td style="text-align: right;">0.900</td>
+<td style="text-align: right;">1.08</td>
+<td style="text-align: right;"><strong>156.6</strong></td>
+<td style="text-align: right;">0.86</td>
+</tr>
+<tr>
+<td style="text-align: left;">D3-A</td>
+<td style="text-align: left;">PCBRouteAgent · Opus</td>
+<td style="text-align: right;"><strong>0.994</strong></td>
+<td style="text-align: right;"><strong>0.09</strong></td>
+<td style="text-align: right;">165.5</td>
+<td style="text-align: right;"><strong>0.79</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">D3-B</td>
+<td style="text-align: left;">Freerouting</td>
+<td style="text-align: right;">0.990</td>
+<td style="text-align: right;">11.94</td>
+<td style="text-align: right;"><strong>533.5</strong></td>
+<td style="text-align: right;"><strong>3.88</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">D3-B</td>
+<td style="text-align: left;">PCBRouteAgent · Opus</td>
+<td style="text-align: right;"><strong>1.000</strong></td>
+<td style="text-align: right;"><strong>0.00</strong></td>
+<td style="text-align: right;">591.6</td>
+<td style="text-align: right;">4.00</td>
+</tr>
+<tr>
+<td style="text-align: left;">D3-C</td>
+<td style="text-align: left;">Freerouting</td>
+<td style="text-align: right;">0.918</td>
+<td style="text-align: right;">32.00</td>
+<td style="text-align: right;"><strong>1304.0</strong></td>
+<td style="text-align: right;">21.40</td>
+</tr>
+<tr>
+<td style="text-align: left;">D3-C</td>
+<td style="text-align: left;">PCBRouteAgent · Opus</td>
+<td style="text-align: right;"><strong>0.949</strong></td>
+<td style="text-align: right;"><strong>6.30</strong></td>
+<td style="text-align: right;">1410.5</td>
+<td style="text-align: right;"><strong>21.30</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>在 <strong>D3-A</strong> 上，Routability 从 0.900 提高到 0.994，平均 DRV 从 1.08 降至 0.09。在 <strong>D3-B</strong> 上，PCBRouteAgent 在全部十块板上完成连接，且 DRV 为零。整板通过率的提高，伴随着连通性的提升和违规计数的下降。</p>
+<p>在 <strong>D3-C</strong> 上，平均 Routability 从 0.918 提高到 0.949，DRV 从 32.00 降到 6.30，<strong>下降 80.3%</strong>；但十块板中仍然只有四块通过。这说明整板成功是严格的指标：即使只剩少数未解决连接，一块已经接近完成的板也可能无法通过。</p>
+<p>物理布线成本存在取舍。相比 Freerouting，Opus 版本在 <strong>D3-B 上线长增加 10.9%</strong>，在 <strong>D3-C 上增加 8.2%</strong>，同时完成了更多电路板。单独看较短的线长并不能判断布线更好，因为未完成的方案也可能只是铺设了更少的铜线。需要把完成度、规则合规性和物理成本放在一起判断。</p>
+<h2 id="_5">提升是不是只来自更强的模型？</h2>
 <p>我们进一步让 PCBRouteAgent 和 PCBWorld 交互式 agent 使用<strong>相同的 Claude Haiku 5.5 backbone</strong>，在固定模型的情况下比较整体 agent 框架。</p>
 <div class="comparison-key"><span><i class="baseline-key"></i>PCBWorld · Haiku</span><span><i class="ours-key"></i>PCBRouteAgent · Haiku</span><span>整板通过率 · 越高越好</span></div>
 <div class="comparison-chart" role="img" aria-label="Haiku 整板通过率对比：D2 从 63.3% 提升到 100%；D3-A 从 34.3% 提升到 92.9%；D3-B 从 0% 提升到 80%；D3-C 从 0% 提升到 10%。">
@@ -122,20 +211,145 @@
 
 <p>四个测试集上的提升说明，整体规划与执行框架确实有效，收益不只来自模型选择。不过，这组对比没有单独隔离每个组件的贡献，也没有控制为相同的交互预算。图中的 pp 表示百分点。</p>
 <p>我们没有完整评估 PCBWorld–Opus，因为已经验证，其逐步调用模型的方式会产生显著高于 PCBRouteAgent 的 API 费用。相同 Haiku backbone 的对比提供了直接证据，无需依赖未测量的 Opus 基线成绩。</p>
-<h2 id="_5">距离布线工程师，还有哪些差距？</h2>
+<h2 id="_6">完成布线，需要多少计算资源？</h2>
+<p>下面的比较让两个框架都使用 <strong>Claude Haiku 5.5，并采用相同的本地评估条件和计时范围</strong>。数值为每板均值，包含未通过的电路板；输入和输出 token 的单位为千（k），费用来自记录的 API 消耗。</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th style="text-align: left;">测试集</th>
+<th style="text-align: left;">方法</th>
+<th style="text-align: right;">耗时（s）</th>
+<th style="text-align: right;">模型调用</th>
+<th style="text-align: right;">输入（k）</th>
+<th style="text-align: right;">输出（k）</th>
+<th style="text-align: right;">费用（$）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">D2</td>
+<td style="text-align: left;">PCBWorld</td>
+<td style="text-align: right;">188.0</td>
+<td style="text-align: right;">43.20</td>
+<td style="text-align: right;">45.8</td>
+<td style="text-align: right;">38.9</td>
+<td style="text-align: right;">0.0240</td>
+</tr>
+<tr>
+<td style="text-align: left;">D2</td>
+<td style="text-align: left;">PCBRouteAgent</td>
+<td style="text-align: right;"><strong>0.8</strong></td>
+<td style="text-align: right;"><strong>0.05</strong></td>
+<td style="text-align: right;"><strong>1.6</strong></td>
+<td style="text-align: right;"><strong>0.1</strong></td>
+<td style="text-align: right;"><strong>0.0002</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">D3-A</td>
+<td style="text-align: left;">PCBWorld</td>
+<td style="text-align: right;">436.0</td>
+<td style="text-align: right;">76.60</td>
+<td style="text-align: right;">112.6</td>
+<td style="text-align: right;">88.1</td>
+<td style="text-align: right;">0.0553</td>
+</tr>
+<tr>
+<td style="text-align: left;">D3-A</td>
+<td style="text-align: left;">PCBRouteAgent</td>
+<td style="text-align: right;"><strong>27.0</strong></td>
+<td style="text-align: right;"><strong>0.87</strong></td>
+<td style="text-align: right;"><strong>19.9</strong></td>
+<td style="text-align: right;"><strong>5.8</strong></td>
+<td style="text-align: right;"><strong>0.0048</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">D3-B</td>
+<td style="text-align: left;">PCBWorld</td>
+<td style="text-align: right;">1817.0</td>
+<td style="text-align: right;">263.90</td>
+<td style="text-align: right;">900.0</td>
+<td style="text-align: right;">352.0</td>
+<td style="text-align: right;">0.2660</td>
+</tr>
+<tr>
+<td style="text-align: left;">D3-B</td>
+<td style="text-align: left;">PCBRouteAgent</td>
+<td style="text-align: right;"><strong>146.0</strong></td>
+<td style="text-align: right;"><strong>2.90</strong></td>
+<td style="text-align: right;"><strong>163.0</strong></td>
+<td style="text-align: right;"><strong>30.0</strong></td>
+<td style="text-align: right;"><strong>0.0330</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">D3-C</td>
+<td style="text-align: left;">PCBWorld</td>
+<td style="text-align: right;">4566.0</td>
+<td style="text-align: right;">676.60</td>
+<td style="text-align: right;">5430.0</td>
+<td style="text-align: right;">816.0</td>
+<td style="text-align: right;">0.9510</td>
+</tr>
+<tr>
+<td style="text-align: left;">D3-C</td>
+<td style="text-align: left;">PCBRouteAgent</td>
+<td style="text-align: right;"><strong>516.0</strong></td>
+<td style="text-align: right;"><strong>5.10</strong></td>
+<td style="text-align: right;"><strong>666.0</strong></td>
+<td style="text-align: right;"><strong>62.0</strong></td>
+<td style="text-align: right;"><strong>0.3930</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>在每个测试集上，PCBRouteAgent 的模型调用、token、耗时和 API 费用都更低。D2 上的平均模型调用从 <strong>43.20 次降到 0.05 次</strong>；D3-C 上从 <strong>676.60 次降到 5.10 次</strong>。每板均值可以小于一次调用，是因为许多电路板只靠脚本初始化引导和原生布线执行就能完成，不需要调用模型修订引导。</p>
+<h3 id="247">全部 247 块板的累计消耗</h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th style="text-align: left;">方法</th>
+<th style="text-align: right;">模型调用</th>
+<th style="text-align: right;">输入 token</th>
+<th style="text-align: right;">输出 token</th>
+<th style="text-align: right;">API 费用</th>
+<th style="text-align: right;">累计耗时</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">PCBWorld · Haiku</td>
+<td style="text-align: right;">22,529</td>
+<td style="text-align: right;">80.3M</td>
+<td style="text-align: right;">25.4M</td>
+<td style="text-align: right;">$20.72</td>
+<td style="text-align: right;">36.4 h</td>
+</tr>
+<tr>
+<td style="text-align: left;">PCBRouteAgent · Haiku</td>
+<td style="text-align: right;"><strong>172</strong></td>
+<td style="text-align: right;"><strong>10.5M</strong></td>
+<td style="text-align: right;"><strong>1.5M</strong></td>
+<td style="text-align: right;"><strong>$4.77</strong></td>
+<td style="text-align: right;"><strong>2.6 h</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>整个测试集上，模型调用约减少到原来的 <strong>1/131</strong>，总 token 减少到 <strong>1/8.8</strong>，API 费用减少到 <strong>1/4.3</strong>，累计运行时间减少到 <strong>1/14</strong>。累计耗时是各块板运行时间之和，不代表并行批处理的实际持续时间。这些资源消耗的下降，伴随着四个测试集上更高的整板通过率。</p>
+<h3 id="_7">相对于实际完成量的成本</h3>
+<p>按每条接通的目标边归一化后，token 消耗仍然明显下降：D2 从 <strong>11,374 降到 202</strong>，D3-A 从 <strong>22,079 降到 1,972</strong>，D3-B 从 <strong>65,545 降到 4,355</strong>，D3-C 从 <strong>269,324 降到 6,744</strong>。该指标用每个测试集的全部输入和输出 token，除以实际接通的目标边总数。</p>
+<p>较低的每板费用不等于较低的每块成功板成本。在 D3-C 上，PCBRouteAgent 每板花费 $0.393，但 Haiku 版本十块板中只有一块通过；用总费用除以通过板数，得到的<strong>每块通过板成本为 $3.93</strong>。PCBWorld–Haiku 在 D3-B 和 D3-C 上没有通过板，因此对应指标没有定义。提高大板上的可靠完成率，对布线质量和实际效率都很重要。</p>
+<h2 id="_8">距离布线工程师，还有哪些差距？</h2>
 <p>仍有明显差距。在最大规模测试集上，Opus 版本只通过了 10 块板中的 4 块。平均 Routability 虽然达到 0.949，但较高的平均连通率不意味着整板所有连接都已完成且满足规则。布线紧凑性也有改进空间：在 D3-C 上，相比 Freerouting，整板通过率从 30% 提高到 40%，但线长也增加了 8.2%。</p>
 <p>这些结果支持一种分工：由原生布线器处理物理执行，模型则依据执行证据修订整板规划。接下来需要解决的，是大规模电路板上的完整布线、更紧凑的路径，以及对各组件贡献的受控消融研究。</p>
 <h2 id="citation">Citation</h2>
-<p>如需引用本工作，可以使用以下 BibTeX。目前按准备中的稿件标注，正式公开后将补充论文链接及出版信息。</p>
+<p>本文已提交 arXiv，正在等待公布。可以使用以下 BibTeX；正式公开后将补充论文链接和编号。</p>
 <pre><code class="language-bibtex">@unpublished{zhang2026pcbrouteagent,
   title  = {{PCBRouteAgent}: How Close Are {LLM} Agents to Becoming {PCB} Routing Engineers?},
   author = {Zhang, Yue and Sun, Jilei and Jing, Liqiang and Wei, Yijie and Yang, Ruohan},
   year   = {2026},
-  note   = {Manuscript in preparation}
+  note   = {Submitted to arXiv; awaiting announcement}
 }
 </code></pre>
 <p><a href="/assets/research/pcbrouteagent/pcbrouteagent.bib">下载 BibTeX</a></p>
-<h2 id="_6">相关资源</h2>
+<h2 id="_9">相关资源</h2>
 <ul>
 <li><a href="https://github.com/chip-ai-agent/PCBRouteAgent">PCBRouteAgent 项目代码</a></li>
 <li><a href="https://arxiv.org/abs/2607.05915">PCBWorld: A Benchmark Environment for Engine-Grounded PCB Design Automation</a></li>
