@@ -194,14 +194,17 @@ These results point toward a useful division of work: let a native router handle
 
 ## Citation
 
-This manuscript has been submitted to arXiv and is awaiting announcement. You can use the BibTeX below; the public paper link and identifier will be added once available.
+The paper is available on [arXiv](https://arxiv.org/abs/2611.08175). Please use the following BibTeX to cite it.
 
 ```bibtex
-@unpublished{zhang2026pcbrouteagent,
-  title  = {{PCBRouteAgent}: How Close Are {LLM} Agents to Becoming {PCB} Routing Engineers?},
-  author = {Zhang, Yue and Sun, Jilei and Jing, Liqiang and Wei, Yijie and Yang, Ruohan},
-  year   = {2026},
-  note   = {Submitted to arXiv; awaiting announcement}
+@misc{zhang2026pcbrouteagentclosellmagents,
+      title={PCBRouteAgent: How Close Are LLM Agents to Becoming PCB Routing Engineers?},
+      author={Yue Zhang and Jilei Sun and Liqiang Jing and Yijie Wei and Ruohan Yang},
+      year={2026},
+      eprint={2611.08175},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2611.08175},
 }
 ```
 
@@ -209,6 +212,7 @@ This manuscript has been submitted to arXiv and is awaiting announcement. You ca
 
 ## Resources
 
+- [PCBRouteAgent paper · arXiv:2611.08175](https://arxiv.org/abs/2611.08175)
 - [PCBRouteAgent code](https://github.com/chip-ai-agent/PCBRouteAgent)
 - [PCBWorld: A Benchmark Environment for Engine-Grounded PCB Design Automation](https://arxiv.org/abs/2607.05915)
 - [KiCad documentation](https://docs.kicad.org/)

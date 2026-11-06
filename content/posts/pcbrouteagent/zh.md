@@ -194,14 +194,17 @@ PCBRouteAgent 包含三个功能组件，由执行控制器管理任务、检查
 
 ## Citation
 
-本文已提交 arXiv，正在等待公布。可以使用以下 BibTeX；正式公开后将补充论文链接和编号。
+论文已在 [arXiv](https://arxiv.org/abs/2611.08175) 公开，可以使用以下 BibTeX 引用。
 
 ```bibtex
-@unpublished{zhang2026pcbrouteagent,
-  title  = {{PCBRouteAgent}: How Close Are {LLM} Agents to Becoming {PCB} Routing Engineers?},
-  author = {Zhang, Yue and Sun, Jilei and Jing, Liqiang and Wei, Yijie and Yang, Ruohan},
-  year   = {2026},
-  note   = {Submitted to arXiv; awaiting announcement}
+@misc{zhang2026pcbrouteagentclosellmagents,
+      title={PCBRouteAgent: How Close Are LLM Agents to Becoming PCB Routing Engineers?},
+      author={Yue Zhang and Jilei Sun and Liqiang Jing and Yijie Wei and Ruohan Yang},
+      year={2026},
+      eprint={2611.08175},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2611.08175},
 }
 ```
 
@@ -209,6 +212,7 @@ PCBRouteAgent 包含三个功能组件，由执行控制器管理任务、检查
 
 ## 相关资源
 
+- [PCBRouteAgent 论文 · arXiv:2611.08175](https://arxiv.org/abs/2611.08175)
 - [PCBRouteAgent 项目代码](https://github.com/chip-ai-agent/PCBRouteAgent)
 - [PCBWorld: A Benchmark Environment for Engine-Grounded PCB Design Automation](https://arxiv.org/abs/2607.05915)
 - [KiCad 官方文档](https://docs.kicad.org/)

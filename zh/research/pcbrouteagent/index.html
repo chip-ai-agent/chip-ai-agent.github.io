@@ -27,7 +27,7 @@
   <p class="author-note">* 共同第一作者。† 通信作者。</p>
   <p class="meta"><time datetime="2026-11-04">2026-11-04</time></p>
   <div class="post-tags"><span>PCB 布线</span><span>AI agent</span><span>KiCad</span></div>
-  <div class="research-links"><span class="resource-pending" aria-disabled="true">arXiv · 待公开</span><a href="https://github.com/chip-ai-agent/PCBRouteAgent">项目代码<span aria-hidden="true"> ↗</span></a><a href="#citation">引用本文<span aria-hidden="true"> ↓</span></a><a href="https://arxiv.org/abs/2607.05915">PCBWorld 基准<span aria-hidden="true"> ↗</span></a></div>
+  <div class="research-links"><a href="https://arxiv.org/abs/2611.08175">论文 · arXiv<span aria-hidden="true"> ↗</span></a><a href="https://github.com/chip-ai-agent/PCBRouteAgent">项目代码<span aria-hidden="true"> ↗</span></a><a href="#citation">引用本文<span aria-hidden="true"> ↓</span></a><a href="https://arxiv.org/abs/2607.05915">PCBWorld 基准<span aria-hidden="true"> ↗</span></a></div>
   </header>
   <div class="article-layout">
   <aside class="article-toc" aria-label="本文内容"><p>本文内容</p><div class="toc">
@@ -355,17 +355,21 @@
 <p>仍有明显差距。在最大规模测试集上，Opus 版本只通过了 10 块板中的 4 块。平均 Routability 虽然达到 0.949，但较高的平均连通率不意味着整板所有连接都已完成且满足规则。布线紧凑性也有改进空间：在 D3-C 上，相比 Freerouting，整板通过率从 30% 提高到 40%，但线长也增加了 8.2%。</p>
 <p>这些结果支持一种分工：由原生布线器处理物理执行，模型则依据执行证据修订整板规划。接下来需要解决的，是大规模电路板上的完整布线、更紧凑的路径，以及对各组件贡献的受控消融研究。</p>
 <h2 id="citation">Citation</h2>
-<p>本文已提交 arXiv，正在等待公布。可以使用以下 BibTeX；正式公开后将补充论文链接和编号。</p>
-<pre><code class="language-bibtex">@unpublished{zhang2026pcbrouteagent,
-  title  = {{PCBRouteAgent}: How Close Are {LLM} Agents to Becoming {PCB} Routing Engineers?},
-  author = {Zhang, Yue and Sun, Jilei and Jing, Liqiang and Wei, Yijie and Yang, Ruohan},
-  year   = {2026},
-  note   = {Submitted to arXiv; awaiting announcement}
+<p>论文已在 <a href="https://arxiv.org/abs/2611.08175">arXiv</a> 公开，可以使用以下 BibTeX 引用。</p>
+<pre><code class="language-bibtex">@misc{zhang2026pcbrouteagentclosellmagents,
+      title={PCBRouteAgent: How Close Are LLM Agents to Becoming PCB Routing Engineers?},
+      author={Yue Zhang and Jilei Sun and Liqiang Jing and Yijie Wei and Ruohan Yang},
+      year={2026},
+      eprint={2611.08175},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2611.08175},
 }
 </code></pre>
 <p><a href="/assets/research/pcbrouteagent/pcbrouteagent.bib">下载 BibTeX</a></p>
 <h2 id="_9">相关资源</h2>
 <ul>
+<li><a href="https://arxiv.org/abs/2611.08175">PCBRouteAgent 论文 · arXiv:2611.08175</a></li>
 <li><a href="https://github.com/chip-ai-agent/PCBRouteAgent">PCBRouteAgent 项目代码</a></li>
 <li><a href="https://arxiv.org/abs/2607.05915">PCBWorld: A Benchmark Environment for Engine-Grounded PCB Design Automation</a></li>
 <li><a href="https://docs.kicad.org/">KiCad 官方文档</a></li>
