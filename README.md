@@ -23,7 +23,7 @@ English lives at `/`, Chinese at `/zh/`; every page links to the other language.
 - English: `/research/pcbrouteagent/`
 - Chinese: `/zh/research/pcbrouteagent/`
 - Text and author metadata: `content/posts/pcbrouteagent/`
-- Task and method figures: `assets/research/pcbrouteagent/`
+- Latest manuscript PDF, task/method figures, and case-study images: `assets/research/pcbrouteagent/`
   (see its README for replacement instructions).
 
 Research posts support optional `authors`, `affiliations`, bilingual `author_note`,

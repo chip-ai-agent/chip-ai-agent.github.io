@@ -27,7 +27,7 @@
   <p class="author-note">* Equal contribution. † Corresponding author.</p>
   <p class="meta"><time datetime="2026-11-04">2026-11-04</time></p>
   <div class="post-tags"><span>PCB routing</span><span>AI agents</span><span>KiCad</span></div>
-  <div class="research-links"><a href="https://arxiv.org/abs/2611.08175">Paper · arXiv<span aria-hidden="true"> ↗</span></a><a href="https://github.com/chip-ai-agent/PCBRouteAgent">Code<span aria-hidden="true"> ↗</span></a><a href="#citation">Citation<span aria-hidden="true"> ↓</span></a><a href="https://arxiv.org/abs/2607.05915">PCBWorld benchmark<span aria-hidden="true"> ↗</span></a></div>
+  <div class="research-links"><a href="/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=5a04884">Latest PDF<span aria-hidden="true"> ↗</span></a><a href="https://arxiv.org/abs/2611.08175">Paper · arXiv<span aria-hidden="true"> ↗</span></a><a href="https://github.com/chip-ai-agent/PCBRouteAgent">Code<span aria-hidden="true"> ↗</span></a><a href="#citation">Citation<span aria-hidden="true"> ↓</span></a><a href="https://arxiv.org/abs/2607.05915">PCBWorld benchmark<span aria-hidden="true"> ↗</span></a></div>
   </header>
   <div class="article-layout">
   <aside class="article-toc" aria-label="On this page"><p>On this page</p><div class="toc">
@@ -43,6 +43,12 @@
 <li><a href="#cost-relative-to-completed-work">Cost relative to completed work</a></li>
 </ul>
 </li>
+<li><a href="#what-do-individual-boards-reveal">What do individual boards reveal?</a><ul>
+<li><a href="#more-routing-from-fewer-model-calls">More routing from fewer model calls</a></li>
+<li><a href="#earlier-routes-can-trap-later-connections">Earlier routes can trap later connections</a></li>
+<li><a href="#all-connections-complete-but-electrical-validation-remains">All connections complete, but electrical validation remains</a></li>
+</ul>
+</li>
 <li><a href="#how-close-are-we-to-a-routing-engineer">How close are we to a routing engineer?</a></li>
 <li><a href="#citation">Citation</a></li>
 <li><a href="#resources">Resources</a></li>
@@ -50,7 +56,7 @@
 </div>
 </aside>
   <article class="article-body">
-  <div class="research-tldr"><span class="eyebrow">TL;DR</span><p>PCB routing needs both a board-level strategy and precise geometric execution. PCBRouteAgent connects the two: it builds routing guides, executes them with KiCad, and revises the guides when local recovery is not enough. Across 247 boards, it achieves clean-pass rates of <strong>100%, 94.9%, 100%, and 40%</strong> on four PCBWorld-Bench splits. With the same Haiku backbone, it improves over PCBWorld's interactive agent on every split.</p></div>
+  <div class="research-tldr"><span class="eyebrow">TL;DR</span><p>PCBRouteAgent coordinates global planning with KiCad’s native router and revises guides from execution feedback. Across 247 boards, the Opus variant achieves <strong>100%, 94.9%, 100%, and 40%</strong> clean pass on D2, D3-A, D3-B, and D3-C. With the same Haiku backbone, it improves completion while using approximately <strong>131× fewer model calls and 4.3× lower API cost</strong> overall. Case studies also reveal a substantial engineering gap: early routes can block later connections, and complete connectivity can still overlook signal-specific constraints.</p></div>
 
 <h2 id="what-does-it-mean-to-route-a-pcb">What does it mean to route a PCB?</h2>
 <p>A printed circuit board connects electronic components through copper traces. After the components have been placed, routing turns their intended electrical connections into physical paths across the board's copper layers. The router must connect the required pads while respecting constraints such as clearance, trace width, and allowed layer transitions.</p>
@@ -68,7 +74,7 @@
 <li><strong>Feedback-Driven Replanning.</strong> When local recovery cannot resolve a connection, the framework collects execution evidence and unresolved targets. The same global planner then revises the relevant guide, and execution resumes from a consistent board state.</li>
 </ol>
 <p>The distinction matters: the language model does not need to micromanage every routing step. The native engine handles geometry, while the model revisits decisions that require a broader view of the board.</p>
-<figure class="article-figure"><a class="figure-link" href="/assets/research/pcbrouteagent/framework.png?v=3c60615" aria-label="View full size"><img src="/assets/research/pcbrouteagent/framework.png?v=3c60615" alt="Overview of PCBRouteAgent, showing global routing planning, guided execution, and feedback-driven replanning." width="2600" height="993" loading="lazy" decoding="async"></a><figcaption><span>Overview of PCBRouteAgent.</span><a href="/assets/research/pcbrouteagent/framework.png?v=3c60615">View full size ↗</a></figcaption></figure>
+<figure class="article-figure"><a class="figure-link" href="/assets/research/pcbrouteagent/framework.png?v=6c9a9b8" aria-label="View full size"><img src="/assets/research/pcbrouteagent/framework.png?v=6c9a9b8" alt="Overview of PCBRouteAgent, showing global routing planning, guided execution, and feedback-driven replanning." width="2600" height="984" loading="lazy" decoding="async"></a><figcaption><span>Overview of PCBRouteAgent.</span><a href="/assets/research/pcbrouteagent/framework.png?v=6c9a9b8">View full size ↗</a></figcaption></figure>
 
 <h2 id="does-the-framework-complete-more-boards">Does the framework complete more boards?</h2>
 <p>We evaluate on <strong>247 boards</strong> from PCBWorld-Bench: 128 synthetic D2 boards, 99 small real-world D3-A boards, 10 medium D3-B boards, and 10 large D3-C boards. The main outcome below is <strong>clean pass</strong>: the fraction of boards with complete required connectivity and no error-level design-rule violations.</p>
@@ -351,9 +357,30 @@
 <h3 id="cost-relative-to-completed-work">Cost relative to completed work</h3>
 <p>The token savings also hold when measured per connected target edge: <strong>11,374 → 202</strong> tokens on D2, <strong>22,079 → 1,972</strong> on D3-A, <strong>65,545 → 4,355</strong> on D3-B, and <strong>269,324 → 6,744</strong> on D3-C. This metric divides all input and output tokens by the total number of connected target edges in each split.</p>
 <p>Low per-board cost does not guarantee low cost per successful board. On D3-C, PCBRouteAgent costs $0.393 per board, but only one of ten Haiku boards passes; dividing the total cost by the number of passes gives <strong>$3.93 per clean-pass board</strong>. PCBWorld–Haiku has no clean-pass boards on D3-B or D3-C, so its cost per clean-pass board is undefined there. Improving reliable completion on large boards therefore remains important for both routing quality and efficiency.</p>
+<h2 id="what-do-individual-boards-reveal">What do individual boards reveal?</h2>
+<p>The <a href="/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=5a04884">updated manuscript (PDF)</a> includes three case studies. They show how the framework uses model decisions and why board completion still falls short of the broader requirements of PCB engineering.</p>
+<h3 id="more-routing-from-fewer-model-calls">More routing from fewer model calls</h3>
+<p>On the same D3-C board with <strong>Claude Haiku 5.5</strong>, PCBRouteAgent connects <strong>84 of 86 targets</strong>, while the PCBWorld interactive baseline connects <strong>10 of 86</strong>. This is an <strong>86.0 percentage-point increase in connection completion</strong>, not in clean-pass rate: the PCBRouteAgent board still has two unresolved connections.</p>
+<div class="case-metrics"><div><strong>10/86 → 84/86</strong><span>Connected targets</span></div><div><strong>403 → 5</strong><span>Model calls</span></div><div><strong>80.3%</strong><span>Fewer input tokens</span></div></div>
+
+<figure class="article-figure"><a class="figure-link" href="/assets/research/pcbrouteagent/case-1.png?v=5a04884" aria-label="View full size"><img src="/assets/research/pcbrouteagent/case-1.png?v=5a04884" alt="Saved outputs on the same board: PCBWorld connects 10 of 86 targets; PCBRouteAgent connects 84. Red and blue indicate front and back copper." width="3120" height="1164" loading="lazy" decoding="async"></a><figcaption><span>Same D3-C board and Haiku 5.5 backbone: 10/86 versus 84/86 connected targets.</span><a href="/assets/research/pcbrouteagent/case-1.png?v=5a04884">View full size ↗</a></figcaption></figure>
+
+<p>The baseline reaches its 403-step action limit, making one model call per action. PCBRouteAgent uses five calls while the native router handles detailed execution. Recorded input tokens decrease from 2,024,617 to 398,021 and output tokens from 682,784 to 86,963, reductions of <strong>80.3% and 87.3%</strong>, respectively. This case illustrates more effective use of the same model through the planning–execution framework.</p>
+<h3 id="earlier-routes-can-trap-later-connections">Earlier routes can trap later connections</h3>
+<p>A second D3-C example shows a limitation of local recovery: the Opus variant connects <strong>70 of 83 targets</strong>, while the reference connects all 83. Sensor power is routed first without reserving pad access or space for layer-changing vias. Clock and data signals initially stall near crowded controller pads; later attempts change layers but encounter the retained power route near the sensor. Repair preserves that route, leaving the restriction in place.</p>
+<details class="case-detail"><summary>View the controller and sensor routing comparison</summary>
+<figure class="article-figure"><a class="figure-link" href="/assets/research/pcbrouteagent/case-2.png?v=5a04884" aria-label="View full size"><img src="/assets/research/pcbrouteagent/case-2.png?v=5a04884" alt="Reference and agent routing around controller and sensor pads. Earlier power routing restricts access for the remaining signal connections; dashed lines are retry guides, not copper." width="3120" height="2520" loading="lazy" decoding="async"></a><figcaption><span>Congested controller and sensor regions: reference on the left, PCBRouteAgent on the right.</span><a href="/assets/research/pcbrouteagent/case-2.png?v=5a04884">View full size ↗</a></figcaption></figure>
+</details>
+
+<p>The lesson is that more local retries cannot always compensate for an earlier allocation of routing space. Better look-ahead should reserve critical access, prioritize connections with few alternatives, and reconsider earlier routes when needed.</p>
+<h3 id="all-connections-complete-but-electrical-validation-remains">All connections complete, but electrical validation remains</h3>
+<p>On a D3-B board, the Opus variant connects <strong>all 55 targets</strong>, yet routes USB D+ and D− independently. The reference keeps the pair together, with each trace measuring <strong>30.25 mm</strong>; PCBRouteAgent produces separate <strong>34.03 mm</strong> and <strong>36.49 mm</strong> paths. Its planning input specifies individual net widths and clearances but does not encode the differential-pair relationship.</p>
+<figure class="article-figure"><a class="figure-link" href="/assets/research/pcbrouteagent/case-3.png?v=5a04884" aria-label="View full size"><img src="/assets/research/pcbrouteagent/case-3.png?v=5a04884" alt="Reference USB pair routed side by side at 30.25 mm each; PCBRouteAgent routes the signals separately at 34.03 and 36.49 mm." width="3120" height="1308" loading="lazy" decoding="async"></a><figcaption><span>USB D+ and D− in the reference (left) and fully connected PCBRouteAgent output (right).</span><a href="/assets/research/pcbrouteagent/case-3.png?v=5a04884">View full size ↗</a></figcaption></figure>
+
+<p><a href="https://www.silabs.com/documents/public/application-notes/an0046-efm32-usb-hardware-design-guidelines.pdf">USB design guidelines</a> recommend treating D+ and D− as a differential pair and controlling their geometry and skew. This example exposes a missing signal-specific representation; it does not by itself establish that the USB link fails electrically. That requires further electrical validation. <strong>Connection completion and basic design-rule checks alone do not establish that a design meets its electrical requirements.</strong></p>
 <h2 id="how-close-are-we-to-a-routing-engineer">How close are we to a routing engineer?</h2>
 <p>There is still a substantial gap. On the largest split, the Opus variant passes four of ten boards. Its mean routability reaches 0.949, but high average connectivity does not guarantee that every connection on a board is complete and clean. Routing compactness also remains a challenge: on D3-C, wirelength is 8.2% higher than Freerouting, while clean pass improves from 30% to 40%.</p>
-<p>These results point toward a useful division of work: let a native router handle physical execution, and use model reasoning to revise board-level decisions when execution provides evidence that they should change. Better completion on large boards, more compact routes, and controlled component ablations are the next questions to investigate.</p>
+<p>The case studies make this gap more concrete. Approaching the responsibilities of a PCB routing engineer requires stronger coordination across early and late routing decisions, recovery that can revisit accepted routes, explicit signal-specific constraints, and validation beyond connectivity and basic design rules. Better completion on large boards, more compact routes, and controlled component ablations remain important next steps.</p>
 <h2 id="citation">Citation</h2>
 <p>The paper is available on <a href="https://arxiv.org/abs/2611.08175">arXiv</a>. Please use the following BibTeX to cite it.</p>
 <pre><code class="language-bibtex">@misc{zhang2026pcbrouteagentclosellmagents,
@@ -369,6 +396,7 @@
 <p><a href="/assets/research/pcbrouteagent/pcbrouteagent.bib">Download BibTeX</a></p>
 <h2 id="resources">Resources</h2>
 <ul>
+<li><a href="/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=5a04884">Latest manuscript PDF, including case studies</a></li>
 <li><a href="https://arxiv.org/abs/2611.08175">PCBRouteAgent paper · arXiv:2611.08175</a></li>
 <li><a href="https://github.com/chip-ai-agent/PCBRouteAgent">PCBRouteAgent code</a></li>
 <li><a href="https://arxiv.org/abs/2607.05915">PCBWorld: A Benchmark Environment for Engine-Grounded PCB Design Automation</a></li>

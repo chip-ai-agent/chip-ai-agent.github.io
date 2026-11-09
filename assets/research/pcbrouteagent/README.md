@@ -6,7 +6,12 @@ Current figures, shared by both language versions:
 
 - `task.png`: rendered at 2400 px from the paper's `arxiv/fig/pcb-routing-task.pdf`.
 - `framework.png`: rendered at 2600 px after trimming PDF page margins from the paper's `arxiv/fig/method.pdf`
-  (Overleaf revision `3c60615`). The figure URLs include the source revision to refresh browser caches.
+  (diagram revision `6c9a9b8`). The figure URLs include the source revision to refresh browser caches.
+- `case-1.png`, `case-2.png`, `case-3.png`: original case-study figures from
+  `arxiv/fig/routeagent-case-{1,2,3}.png` at paper revision `5a04884`.
+- `PCBRouteAgent.pdf`: the locally compiled manuscript at revision `5a04884`,
+  including the main-text USB example and detailed appendix case studies.
+  The article links to this PDF separately from the arXiv record.
 
 Store the finished images in this directory. Use root-relative paths such as
 `/assets/research/pcbrouteagent/task.png` in both language versions. Replacing

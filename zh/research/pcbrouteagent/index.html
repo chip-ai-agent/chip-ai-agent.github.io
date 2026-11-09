@@ -27,7 +27,7 @@
   <p class="author-note">* 共同第一作者。† 通信作者。</p>
   <p class="meta"><time datetime="2026-11-04">2026-11-04</time></p>
   <div class="post-tags"><span>PCB 布线</span><span>AI agent</span><span>KiCad</span></div>
-  <div class="research-links"><a href="https://arxiv.org/abs/2611.08175">论文 · arXiv<span aria-hidden="true"> ↗</span></a><a href="https://github.com/chip-ai-agent/PCBRouteAgent">项目代码<span aria-hidden="true"> ↗</span></a><a href="#citation">引用本文<span aria-hidden="true"> ↓</span></a><a href="https://arxiv.org/abs/2607.05915">PCBWorld 基准<span aria-hidden="true"> ↗</span></a></div>
+  <div class="research-links"><a href="/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=5a04884">最新 PDF<span aria-hidden="true"> ↗</span></a><a href="https://arxiv.org/abs/2611.08175">论文 · arXiv<span aria-hidden="true"> ↗</span></a><a href="https://github.com/chip-ai-agent/PCBRouteAgent">项目代码<span aria-hidden="true"> ↗</span></a><a href="#citation">引用本文<span aria-hidden="true"> ↓</span></a><a href="https://arxiv.org/abs/2607.05915">PCBWorld 基准<span aria-hidden="true"> ↗</span></a></div>
   </header>
   <div class="article-layout">
   <aside class="article-toc" aria-label="本文内容"><p>本文内容</p><div class="toc">
@@ -43,14 +43,20 @@
 <li><a href="#_7">相对于实际完成量的成本</a></li>
 </ul>
 </li>
-<li><a href="#_8">距离布线工程师，还有哪些差距？</a></li>
+<li><a href="#_8">单块电路板揭示了什么？</a><ul>
+<li><a href="#_9">更少的模型调用，完成更多连接</a></li>
+<li><a href="#_10">早期布线会限制后续连接</a></li>
+<li><a href="#_11">完全连通，仍然需要电气验证</a></li>
+</ul>
+</li>
+<li><a href="#_12">距离布线工程师，还有哪些差距？</a></li>
 <li><a href="#citation">Citation</a></li>
-<li><a href="#_9">相关资源</a></li>
+<li><a href="#_13">相关资源</a></li>
 </ul>
 </div>
 </aside>
   <article class="article-body">
-  <div class="research-tldr"><span class="eyebrow">TL;DR / 核心发现</span><p>PCB 布线需要同时考虑整板策略和精确的几何执行。PCBRouteAgent 将两者连接起来：生成布线引导、交给 KiCad 执行，并在局部恢复失败时修订引导。在 247 块板的评估中，四个 PCBWorld-Bench 测试集的整板通过率分别为 <strong>100%、94.9%、100% 和 40%</strong>。使用相同 Haiku 模型时，我们在四个测试集上均优于 PCBWorld 交互式 agent。</p></div>
+  <div class="research-tldr"><span class="eyebrow">TL;DR / 核心发现</span><p>PCBRouteAgent 协调全局规划与 KiCad 原生布线，并根据执行反馈修订引导。在 247 块板上，Opus 版本在 D2、D3-A、D3-B 和 D3-C 的整板通过率分别为 <strong>100%、94.9%、100% 和 40%</strong>。使用相同 Haiku backbone 时，框架提高了完成率，同时将总模型调用降至约 <strong>1/131</strong>、API 费用降至约 <strong>1/4.3</strong>。案例也揭示了明显的工程差距：早期布线可能阻碍后续连接，完全连通仍可能遗漏信号相关约束。</p></div>
 
 <h2 id="pcb">给 PCB 布线，究竟要完成什么？</h2>
 <p>印刷电路板（PCB）通过铜线连接电子元件。元件布局确定后，布线需要把电路中指定的电气连接转化为板上不同铜层中的物理路径。除了连接相应的焊盘，还必须满足间距、线宽和允许换层位置等设计约束。</p>
@@ -68,7 +74,7 @@
 <li><strong>Feedback-Driven Replanning（反馈驱动重规划）。</strong> 局部恢复仍不能完成连接时，收集执行证据与未解决目标，由同一个全局规划器修订相关引导，再从一致的电路板状态继续执行。</li>
 </ol>
 <p>这样分工的意义在于：模型不必细管每一步走线。原生引擎负责几何执行，模型则在需要整板视角时重新审视规划决策。</p>
-<figure class="article-figure"><a class="figure-link" href="/assets/research/pcbrouteagent/framework.png?v=3c60615" aria-label="查看原图"><img src="/assets/research/pcbrouteagent/framework.png?v=3c60615" alt="PCBRouteAgent 框架概览，展示全局布线规划、引导执行与反馈重规划。" width="2600" height="993" loading="lazy" decoding="async"></a><figcaption><span>PCBRouteAgent 框架概览。</span><a href="/assets/research/pcbrouteagent/framework.png?v=3c60615">查看原图 ↗</a></figcaption></figure>
+<figure class="article-figure"><a class="figure-link" href="/assets/research/pcbrouteagent/framework.png?v=6c9a9b8" aria-label="查看原图"><img src="/assets/research/pcbrouteagent/framework.png?v=6c9a9b8" alt="PCBRouteAgent 框架概览，展示全局布线规划、引导执行与反馈重规划。" width="2600" height="984" loading="lazy" decoding="async"></a><figcaption><span>PCBRouteAgent 框架概览。</span><a href="/assets/research/pcbrouteagent/framework.png?v=6c9a9b8">查看原图 ↗</a></figcaption></figure>
 
 <h2 id="_3">这个框架能完成更多电路板吗？</h2>
 <p>我们在 PCBWorld-Bench 的 <strong>247 块板</strong>上评估：128 块合成 D2 电路板、99 块小规模真实 D3-A 电路板、10 块中规模 D3-B 电路板，以及 10 块大规模 D3-C 电路板。下面的主要指标为 <strong>Clean Pass（整板通过率）</strong>：全部必需连接完成且没有错误级设计规则违规的电路板比例。</p>
@@ -351,9 +357,30 @@
 <h3 id="_7">相对于实际完成量的成本</h3>
 <p>按每条接通的目标边归一化后，token 消耗仍然明显下降：D2 从 <strong>11,374 降到 202</strong>，D3-A 从 <strong>22,079 降到 1,972</strong>，D3-B 从 <strong>65,545 降到 4,355</strong>，D3-C 从 <strong>269,324 降到 6,744</strong>。该指标用每个测试集的全部输入和输出 token，除以实际接通的目标边总数。</p>
 <p>较低的每板费用不等于较低的每块成功板成本。在 D3-C 上，PCBRouteAgent 每板花费 $0.393，但 Haiku 版本十块板中只有一块通过；用总费用除以通过板数，得到的<strong>每块通过板成本为 $3.93</strong>。PCBWorld–Haiku 在 D3-B 和 D3-C 上没有通过板，因此对应指标没有定义。提高大板上的可靠完成率，对布线质量和实际效率都很重要。</p>
-<h2 id="_8">距离布线工程师，还有哪些差距？</h2>
+<h2 id="_8">单块电路板揭示了什么？</h2>
+<p><a href="/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=5a04884">最新论文 PDF</a> 中加入了三个案例：它们展示框架如何使用模型决策，也说明完成电气连接距离满足 PCB 工程要求还有哪些差距。</p>
+<h3 id="_9">更少的模型调用，完成更多连接</h3>
+<p>在同一块 D3-C 电路板上，双方都使用 <strong>Claude Haiku 5.5</strong>。PCBRouteAgent 接通 <strong>86 个目标中的 84 个</strong>，PCBWorld 交互式基线只接通 <strong>10 个</strong>，连接完成率提高 <strong>86.0 个百分点</strong>。这不是整板通过率的提升：PCBRouteAgent 仍有两个连接未解决。</p>
+<div class="case-metrics"><div><strong>10/86 → 84/86</strong><span>接通目标</span></div><div><strong>403 → 5</strong><span>模型调用</span></div><div><strong>80.3%</strong><span>输入 token 减少</span></div></div>
+
+<figure class="article-figure"><a class="figure-link" href="/assets/research/pcbrouteagent/case-1.png?v=5a04884" aria-label="查看原图"><img src="/assets/research/pcbrouteagent/case-1.png?v=5a04884" alt="同一电路板的保存结果：PCBWorld 接通 86 个目标中的 10 个，PCBRouteAgent 接通 84 个；红色和蓝色分别表示正面与背面铜层。" width="3120" height="1164" loading="lazy" decoding="async"></a><figcaption><span>同一块 D3-C 电路板、相同 Haiku 5.5：接通目标从 10/86 提高到 84/86。</span><a href="/assets/research/pcbrouteagent/case-1.png?v=5a04884">查看原图 ↗</a></figcaption></figure>
+
+<p>基线每个动作调用一次模型，并达到 403 步的动作上限。PCBRouteAgent 使用五次模型调用，将详细执行交给原生布线器。记录的输入 token 从 2,024,617 降到 398,021，输出从 682,784 降到 86,963，分别减少 <strong>80.3% 和 87.3%</strong>。这个案例展示了规划与执行的分工如何更有效地使用同一个模型。</p>
+<h3 id="_10">早期布线会限制后续连接</h3>
+<p>另一个 D3-C 案例揭示局部恢复的局限：Opus 版本完成 <strong>83 个目标中的 70 个</strong>，Reference 则完成全部 83 个。系统先布传感器电源，没有为后续信号保留焊盘接入空间或换层过孔位置。时钟与数据信号先在拥挤的控制器焊盘附近受阻；后续重试虽然换层，却又在传感器入口遇到已保留的电源路径。修复没有撤回这条路径，因此空间限制仍然存在。</p>
+<details class="case-detail"><summary>查看控制器与传感器区域的布线对比</summary>
+<figure class="article-figure"><a class="figure-link" href="/assets/research/pcbrouteagent/case-2.png?v=5a04884" aria-label="查看原图"><img src="/assets/research/pcbrouteagent/case-2.png?v=5a04884" alt="Reference 和 agent 在控制器及传感器焊盘附近的布线。早期电源路径限制了后续信号的接入；虚线为重试引导，不是铜线。" width="3120" height="2520" loading="lazy" decoding="async"></a><figcaption><span>控制器和传感器的拥塞区域：左侧为 Reference，右侧为 PCBRouteAgent。</span><a href="/assets/research/pcbrouteagent/case-2.png?v=5a04884">查看原图 ↗</a></figcaption></figure>
+</details>
+
+<p>这说明增加局部重试不一定能弥补早期空间分配。规划需要更强的前瞻性：为关键连接保留接入空间，优先处理可选路径少的连接，并在需要时重新考虑早期布线。</p>
+<h3 id="_11">完全连通，仍然需要电气验证</h3>
+<p>在一块 D3-B 电路板上，Opus 版本完成了<strong>全部 55 个目标连接</strong>，却把 USB D+ 与 D− 当成独立信号布线。Reference 中两条线并行，长度均为 <strong>30.25 mm</strong>；PCBRouteAgent 得到两条分离的路径，长度分别为 <strong>34.03 mm</strong> 和 <strong>36.49 mm</strong>。规划输入包含各条网络的线宽与间距，却没有编码差分对关系。</p>
+<figure class="article-figure"><a class="figure-link" href="/assets/research/pcbrouteagent/case-3.png?v=5a04884" aria-label="查看原图"><img src="/assets/research/pcbrouteagent/case-3.png?v=5a04884" alt="Reference 中两条 USB 线并行布线，长度均为 30.25 mm；PCBRouteAgent 分别布线，长度为 34.03 mm 和 36.49 mm。" width="3120" height="1308" loading="lazy" decoding="async"></a><figcaption><span>Reference（左）与完全连通的 PCBRouteAgent 输出（右）中的 USB D+ 和 D−。</span><a href="/assets/research/pcbrouteagent/case-3.png?v=5a04884">查看原图 ↗</a></figcaption></figure>
+
+<p><a href="https://www.silabs.com/documents/public/application-notes/an0046-efm32-usb-hardware-design-guidelines.pdf">USB 设计指南</a>建议将 D+ 与 D− 作为差分对处理，并控制几何关系与偏斜。这个案例揭示了信号相关表示的缺失，不能仅凭图中差异断言 USB 链路电气失效，仍需进一步验证。<strong>完成连接并通过基本设计规则检查，不等于已经证明设计满足电气要求。</strong></p>
+<h2 id="_12">距离布线工程师，还有哪些差距？</h2>
 <p>仍有明显差距。在最大规模测试集上，Opus 版本只通过了 10 块板中的 4 块。平均 Routability 虽然达到 0.949，但较高的平均连通率不意味着整板所有连接都已完成且满足规则。布线紧凑性也有改进空间：在 D3-C 上，相比 Freerouting，整板通过率从 30% 提高到 40%，但线长也增加了 8.2%。</p>
-<p>这些结果支持一种分工：由原生布线器处理物理执行，模型则依据执行证据修订整板规划。接下来需要解决的，是大规模电路板上的完整布线、更紧凑的路径，以及对各组件贡献的受控消融研究。</p>
+<p>案例让这些差距更具体：要接近 PCB 布线工程师的职责，需要更好地协调前后布线决策，让恢复能够重新审视已接受的路径，显式表达信号相关约束，并在连通性与基本设计规则之外开展验证。大规模电路板上的可靠完成、更紧凑的路径，以及对各组件贡献的受控消融，仍是重要的后续方向。</p>
 <h2 id="citation">Citation</h2>
 <p>论文已在 <a href="https://arxiv.org/abs/2611.08175">arXiv</a> 公开，可以使用以下 BibTeX 引用。</p>
 <pre><code class="language-bibtex">@misc{zhang2026pcbrouteagentclosellmagents,
@@ -367,8 +394,9 @@
 }
 </code></pre>
 <p><a href="/assets/research/pcbrouteagent/pcbrouteagent.bib">下载 BibTeX</a></p>
-<h2 id="_9">相关资源</h2>
+<h2 id="_13">相关资源</h2>
 <ul>
+<li><a href="/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=5a04884">最新论文 PDF（含案例分析）</a></li>
 <li><a href="https://arxiv.org/abs/2611.08175">PCBRouteAgent 论文 · arXiv:2611.08175</a></li>
 <li><a href="https://github.com/chip-ai-agent/PCBRouteAgent">PCBRouteAgent 项目代码</a></li>
 <li><a href="https://arxiv.org/abs/2607.05915">PCBWorld: A Benchmark Environment for Engine-Grounded PCB Design Automation</a></li>

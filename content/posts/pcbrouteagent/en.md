@@ -1,6 +1,6 @@
 # PCBRouteAgent: How Close Are LLM Agents to Becoming PCB Routing Engineers?
 
-<div class="research-tldr"><span class="eyebrow">TL;DR</span><p>PCB routing needs both a board-level strategy and precise geometric execution. PCBRouteAgent connects the two: it builds routing guides, executes them with KiCad, and revises the guides when local recovery is not enough. Across 247 boards, it achieves clean-pass rates of <strong>100%, 94.9%, 100%, and 40%</strong> on four PCBWorld-Bench splits. With the same Haiku backbone, it improves over PCBWorld's interactive agent on every split.</p></div>
+<div class="research-tldr"><span class="eyebrow">TL;DR</span><p>PCBRouteAgent coordinates global planning with KiCad’s native router and revises guides from execution feedback. Across 247 boards, the Opus variant achieves <strong>100%, 94.9%, 100%, and 40%</strong> clean pass on D2, D3-A, D3-B, and D3-C. With the same Haiku backbone, it improves completion while using approximately <strong>131× fewer model calls and 4.3× lower API cost</strong> overall. Case studies also reveal a substantial engineering gap: early routes can block later connections, and complete connectivity can still overlook signal-specific constraints.</p></div>
 
 ## What does it mean to route a PCB?
 
@@ -26,7 +26,7 @@ PCBRouteAgent has three functional components. An execution controller manages r
 
 The distinction matters: the language model does not need to micromanage every routing step. The native engine handles geometry, while the model revisits decisions that require a broader view of the board.
 
-<figure class="article-figure"><a class="figure-link" href="/assets/research/pcbrouteagent/framework.png?v=3c60615" aria-label="View full size"><img src="/assets/research/pcbrouteagent/framework.png?v=3c60615" alt="Overview of PCBRouteAgent, showing global routing planning, guided execution, and feedback-driven replanning." width="2600" height="993" loading="lazy" decoding="async"></a><figcaption><span>Overview of PCBRouteAgent.</span><a href="/assets/research/pcbrouteagent/framework.png?v=3c60615">View full size ↗</a></figcaption></figure>
+<figure class="article-figure"><a class="figure-link" href="/assets/research/pcbrouteagent/framework.png?v=6c9a9b8" aria-label="View full size"><img src="/assets/research/pcbrouteagent/framework.png?v=6c9a9b8" alt="Overview of PCBRouteAgent, showing global routing planning, guided execution, and feedback-driven replanning." width="2600" height="984" loading="lazy" decoding="async"></a><figcaption><span>Overview of PCBRouteAgent.</span><a href="/assets/research/pcbrouteagent/framework.png?v=6c9a9b8">View full size ↗</a></figcaption></figure>
 
 ## Does the framework complete more boards?
 
@@ -186,11 +186,43 @@ The token savings also hold when measured per connected target edge: **11,374 �
 
 Low per-board cost does not guarantee low cost per successful board. On D3-C, PCBRouteAgent costs $0.393 per board, but only one of ten Haiku boards passes; dividing the total cost by the number of passes gives **$3.93 per clean-pass board**. PCBWorld–Haiku has no clean-pass boards on D3-B or D3-C, so its cost per clean-pass board is undefined there. Improving reliable completion on large boards therefore remains important for both routing quality and efficiency.
 
+## What do individual boards reveal?
+
+The [updated manuscript (PDF)](/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=5a04884) includes three case studies. They show how the framework uses model decisions and why board completion still falls short of the broader requirements of PCB engineering.
+
+### More routing from fewer model calls
+
+On the same D3-C board with **Claude Haiku 5.5**, PCBRouteAgent connects **84 of 86 targets**, while the PCBWorld interactive baseline connects **10 of 86**. This is an **86.0 percentage-point increase in connection completion**, not in clean-pass rate: the PCBRouteAgent board still has two unresolved connections.
+
+<div class="case-metrics"><div><strong>10/86 → 84/86</strong><span>Connected targets</span></div><div><strong>403 → 5</strong><span>Model calls</span></div><div><strong>80.3%</strong><span>Fewer input tokens</span></div></div>
+
+<figure class="article-figure"><a class="figure-link" href="/assets/research/pcbrouteagent/case-1.png?v=5a04884" aria-label="View full size"><img src="/assets/research/pcbrouteagent/case-1.png?v=5a04884" alt="Saved outputs on the same board: PCBWorld connects 10 of 86 targets; PCBRouteAgent connects 84. Red and blue indicate front and back copper." width="3120" height="1164" loading="lazy" decoding="async"></a><figcaption><span>Same D3-C board and Haiku 5.5 backbone: 10/86 versus 84/86 connected targets.</span><a href="/assets/research/pcbrouteagent/case-1.png?v=5a04884">View full size ↗</a></figcaption></figure>
+
+The baseline reaches its 403-step action limit, making one model call per action. PCBRouteAgent uses five calls while the native router handles detailed execution. Recorded input tokens decrease from 2,024,617 to 398,021 and output tokens from 682,784 to 86,963, reductions of **80.3% and 87.3%**, respectively. This case illustrates more effective use of the same model through the planning–execution framework.
+
+### Earlier routes can trap later connections
+
+A second D3-C example shows a limitation of local recovery: the Opus variant connects **70 of 83 targets**, while the reference connects all 83. Sensor power is routed first without reserving pad access or space for layer-changing vias. Clock and data signals initially stall near crowded controller pads; later attempts change layers but encounter the retained power route near the sensor. Repair preserves that route, leaving the restriction in place.
+
+<details class="case-detail"><summary>View the controller and sensor routing comparison</summary>
+<figure class="article-figure"><a class="figure-link" href="/assets/research/pcbrouteagent/case-2.png?v=5a04884" aria-label="View full size"><img src="/assets/research/pcbrouteagent/case-2.png?v=5a04884" alt="Reference and agent routing around controller and sensor pads. Earlier power routing restricts access for the remaining signal connections; dashed lines are retry guides, not copper." width="3120" height="2520" loading="lazy" decoding="async"></a><figcaption><span>Congested controller and sensor regions: reference on the left, PCBRouteAgent on the right.</span><a href="/assets/research/pcbrouteagent/case-2.png?v=5a04884">View full size ↗</a></figcaption></figure>
+</details>
+
+The lesson is that more local retries cannot always compensate for an earlier allocation of routing space. Better look-ahead should reserve critical access, prioritize connections with few alternatives, and reconsider earlier routes when needed.
+
+### All connections complete, but electrical validation remains
+
+On a D3-B board, the Opus variant connects **all 55 targets**, yet routes USB D+ and D− independently. The reference keeps the pair together, with each trace measuring **30.25 mm**; PCBRouteAgent produces separate **34.03 mm** and **36.49 mm** paths. Its planning input specifies individual net widths and clearances but does not encode the differential-pair relationship.
+
+<figure class="article-figure"><a class="figure-link" href="/assets/research/pcbrouteagent/case-3.png?v=5a04884" aria-label="View full size"><img src="/assets/research/pcbrouteagent/case-3.png?v=5a04884" alt="Reference USB pair routed side by side at 30.25 mm each; PCBRouteAgent routes the signals separately at 34.03 and 36.49 mm." width="3120" height="1308" loading="lazy" decoding="async"></a><figcaption><span>USB D+ and D− in the reference (left) and fully connected PCBRouteAgent output (right).</span><a href="/assets/research/pcbrouteagent/case-3.png?v=5a04884">View full size ↗</a></figcaption></figure>
+
+[USB design guidelines](https://www.silabs.com/documents/public/application-notes/an0046-efm32-usb-hardware-design-guidelines.pdf) recommend treating D+ and D− as a differential pair and controlling their geometry and skew. This example exposes a missing signal-specific representation; it does not by itself establish that the USB link fails electrically. That requires further electrical validation. **Connection completion and basic design-rule checks alone do not establish that a design meets its electrical requirements.**
+
 ## How close are we to a routing engineer?
 
 There is still a substantial gap. On the largest split, the Opus variant passes four of ten boards. Its mean routability reaches 0.949, but high average connectivity does not guarantee that every connection on a board is complete and clean. Routing compactness also remains a challenge: on D3-C, wirelength is 8.2% higher than Freerouting, while clean pass improves from 30% to 40%.
 
-These results point toward a useful division of work: let a native router handle physical execution, and use model reasoning to revise board-level decisions when execution provides evidence that they should change. Better completion on large boards, more compact routes, and controlled component ablations are the next questions to investigate.
+The case studies make this gap more concrete. Approaching the responsibilities of a PCB routing engineer requires stronger coordination across early and late routing decisions, recovery that can revisit accepted routes, explicit signal-specific constraints, and validation beyond connectivity and basic design rules. Better completion on large boards, more compact routes, and controlled component ablations remain important next steps.
 
 ## Citation
 
@@ -212,6 +244,7 @@ The paper is available on [arXiv](https://arxiv.org/abs/2611.08175). Please use 
 
 ## Resources
 
+- [Latest manuscript PDF, including case studies](/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=5a04884)
 - [PCBRouteAgent paper · arXiv:2611.08175](https://arxiv.org/abs/2611.08175)
 - [PCBRouteAgent code](https://github.com/chip-ai-agent/PCBRouteAgent)
 - [PCBWorld: A Benchmark Environment for Engine-Grounded PCB Design Automation](https://arxiv.org/abs/2607.05915)
