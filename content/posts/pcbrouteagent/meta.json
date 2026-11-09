@@ -16,7 +16,7 @@
     "zh": "LLM agent 距离 PCB 布线工程师还有多远？让全局规划、原生布线与反馈重规划协同，在 247 块板上评估。"
   },
   "links": [
-    {"label": {"en": "Latest PDF", "zh": "最新 PDF"}, "url": "/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=d34af63"},
+    {"label": {"en": "Latest PDF", "zh": "最新 PDF"}, "url": "/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=e050a9e"},
     {"label": {"en": "Paper · arXiv", "zh": "论文 · arXiv"}, "url": "https://arxiv.org/abs/2611.08175"},
     {"label": {"en": "Code", "zh": "项目代码"}, "url": "https://github.com/chip-ai-agent/PCBRouteAgent"},
     {"label": {"en": "Citation", "zh": "引用本文"}, "url": "#citation"},

@@ -27,7 +27,7 @@
   <p class="author-note">* 共同第一作者。† 通信作者。‡ 本工作在作者于 Texas Instruments Inc. 的职务之外完成。</p>
   <p class="meta"><time datetime="2026-11-04">2026-11-04</time></p>
   <div class="post-tags"><span>PCB 布线</span><span>AI agent</span><span>KiCad</span></div>
-  <div class="research-links"><a href="/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=d34af63">最新 PDF<span aria-hidden="true"> ↗</span></a><a href="https://arxiv.org/abs/2611.08175">论文 · arXiv<span aria-hidden="true"> ↗</span></a><a href="https://github.com/chip-ai-agent/PCBRouteAgent">项目代码<span aria-hidden="true"> ↗</span></a><a href="#citation">引用本文<span aria-hidden="true"> ↓</span></a><a href="https://arxiv.org/abs/2607.05915">PCBWorld 基准<span aria-hidden="true"> ↗</span></a></div>
+  <div class="research-links"><a href="/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=e050a9e">最新 PDF<span aria-hidden="true"> ↗</span></a><a href="https://arxiv.org/abs/2611.08175">论文 · arXiv<span aria-hidden="true"> ↗</span></a><a href="https://github.com/chip-ai-agent/PCBRouteAgent">项目代码<span aria-hidden="true"> ↗</span></a><a href="#citation">引用本文<span aria-hidden="true"> ↓</span></a><a href="https://arxiv.org/abs/2607.05915">PCBWorld 基准<span aria-hidden="true"> ↗</span></a></div>
   </header>
   <div class="article-layout">
   <aside class="article-toc" aria-label="本文内容"><p>本文内容</p><div class="toc">
@@ -358,7 +358,7 @@
 <p>按每条接通的目标边归一化后，token 消耗仍然明显下降：D2 从 <strong>11,374 降到 202</strong>，D3-A 从 <strong>22,079 降到 1,972</strong>，D3-B 从 <strong>65,545 降到 4,355</strong>，D3-C 从 <strong>269,324 降到 6,744</strong>。该指标用每个测试集的全部输入和输出 token，除以实际接通的目标边总数。</p>
 <p>较低的每板费用不等于较低的每块成功板成本。在 D3-C 上，PCBRouteAgent 每板花费 $0.393，但 Haiku 版本十块板中只有一块通过；用总费用除以通过板数，得到的<strong>每块通过板成本为 $3.93</strong>。PCBWorld–Haiku 在 D3-B 和 D3-C 上没有通过板，因此对应指标没有定义。提高大板上的可靠完成率，对布线质量和实际效率都很重要。</p>
 <h2 id="_8">单块电路板揭示了什么？</h2>
-<p><a href="/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=d34af63">最新论文 PDF</a> 中加入了三个案例：它们展示框架如何使用模型决策，也说明完成电气连接距离满足 PCB 工程要求还有哪些差距。</p>
+<p><a href="/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=e050a9e">最新论文 PDF</a> 中加入了三个案例：它们展示框架如何使用模型决策，也说明完成电气连接距离满足 PCB 工程要求还有哪些差距。</p>
 <h3 id="_9">更少的模型调用，完成更多连接</h3>
 <p>在同一块 D3-C 电路板上，双方都使用 <strong>Claude Haiku 5.5</strong>。PCBRouteAgent 接通 <strong>86 个目标中的 84 个</strong>，PCBWorld 交互式基线只接通 <strong>10 个</strong>，连接完成率提高 <strong>86.0 个百分点</strong>。这不是整板通过率的提升：PCBRouteAgent 仍有两个连接未解决。</p>
 <div class="case-metrics"><div><strong>10/86 → 84/86</strong><span>接通目标</span></div><div><strong>403 → 5</strong><span>模型调用</span></div><div><strong>80.3%</strong><span>输入 token 减少</span></div></div>
@@ -396,7 +396,7 @@
 <p><a href="/assets/research/pcbrouteagent/pcbrouteagent.bib">下载 BibTeX</a></p>
 <h2 id="_13">相关资源</h2>
 <ul>
-<li><a href="/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=d34af63">最新论文 PDF（含案例分析）</a></li>
+<li><a href="/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=e050a9e">最新论文 PDF（含案例分析）</a></li>
 <li><a href="https://arxiv.org/abs/2611.08175">PCBRouteAgent 论文 · arXiv:2611.08175</a></li>
 <li><a href="https://github.com/chip-ai-agent/PCBRouteAgent">PCBRouteAgent 项目代码</a></li>
 <li><a href="https://arxiv.org/abs/2607.05915">PCBWorld: A Benchmark Environment for Engine-Grounded PCB Design Automation</a></li>

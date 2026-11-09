@@ -188,7 +188,7 @@ PCBRouteAgent 包含三个功能组件，由执行控制器管理任务、检查
 
 ## 单块电路板揭示了什么？
 
-[最新论文 PDF](/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=d34af63) 中加入了三个案例：它们展示框架如何使用模型决策，也说明完成电气连接距离满足 PCB 工程要求还有哪些差距。
+[最新论文 PDF](/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=e050a9e) 中加入了三个案例：它们展示框架如何使用模型决策，也说明完成电气连接距离满足 PCB 工程要求还有哪些差距。
 
 ### 更少的模型调用，完成更多连接
 
@@ -244,7 +244,7 @@ PCBRouteAgent 包含三个功能组件，由执行控制器管理任务、检查
 
 ## 相关资源
 
-- [最新论文 PDF（含案例分析）](/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=d34af63)
+- [最新论文 PDF（含案例分析）](/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=e050a9e)
 - [PCBRouteAgent 论文 · arXiv:2611.08175](https://arxiv.org/abs/2611.08175)
 - [PCBRouteAgent 项目代码](https://github.com/chip-ai-agent/PCBRouteAgent)
 - [PCBWorld: A Benchmark Environment for Engine-Grounded PCB Design Automation](https://arxiv.org/abs/2607.05915)
