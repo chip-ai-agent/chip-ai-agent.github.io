@@ -29,6 +29,8 @@ English lives at `/`, Chinese at `/zh/`; every page links to the other language.
 Research posts support optional `authors`, `affiliations`, bilingual `author_note`,
 and bilingual resource `links` in `meta.json`. The contents sidebar is generated
 from the article headings.
+Author entries may be plain text or objects with `name`, `markers`, and `url`;
+use a confirmed personal profile URL, or leave `url` null until one is available.
 
 The routing-quality explorer reads `assets/research/pcbrouteagent/routing-results.json`.
 Its data are transcribed from the paper's four main tables; D2/D3-A/D3-B rule-based

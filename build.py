@@ -135,7 +135,17 @@ def build_post(site: dict, post: dict, lang: str) -> None:
         scripts = f'<script defer src="{rel(depth)}assets/routing-comparison.js"></script>'
     content = content.replace("<table>", '<div class="table-scroll"><table>').replace("</table>", "</table></div>")
     tags = "".join(f"<span>{html.escape(x)}</span>" for x in post["tags"].get(lang, []))
-    authors = " · ".join(html.escape(author) for author in post["authors"])
+    author_names = []
+    for author in post['authors']:
+        if isinstance(author, str):
+            author_names.append(html.escape(author))
+            continue
+        name = html.escape(author['name'])
+        if author.get('url'):
+            name = f'<a href="{html.escape(author["url"], quote=True)}">{name}</a>'
+        markers = html.escape(author.get('markers', ''))
+        author_names.append(name + f'<sup>{markers}</sup>' if markers else name)
+    authors = ' · '.join(author_names)
     affiliations = " · ".join(html.escape(name) for name in post["affiliations"])
     byline = f'<p class="research-authors">{authors}</p><p class="research-affiliations">{affiliations}</p>' if authors else ""
     author_note = html.escape(post['author_note'].get(lang, ''))
