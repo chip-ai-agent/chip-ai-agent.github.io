@@ -1,16 +1,16 @@
 {
   "date": "2026-11-04",
   "draft": false,
-  "authors": ["Yue Zhang¹*", "Jilei Sun¹*", "Liqiang Jing¹*†", "Yijie Wei²", "Ruohan Yang³"],
+  "authors": ["Yue Zhang¹*", "Jilei Sun¹*", "Liqiang Jing¹*†", "Yijie Wei²‡", "Ruohan Yang³"],
   "affiliations": ["¹ The University of Texas at Dallas", "² Texas Instruments Inc.", "³ Iowa State University"],
-  "author_note": {"en": "* Equal contribution. † Corresponding author.", "zh": "* 共同第一作者。† 通信作者。"},
+  "author_note": {"en": "* Equal contribution. † Corresponding author. ‡ This work was conducted outside the author's role at Texas Instruments Inc.", "zh": "* 共同第一作者。† 通信作者。‡ 本工作在作者于 Texas Instruments Inc. 的职务之外完成。"},
   "tags": {"en": ["PCB routing", "AI agents", "KiCad"], "zh": ["PCB 布线", "AI agent", "KiCad"]},
   "summary": {
     "en": "How close are LLM agents to becoming PCB routing engineers? Global planning, native routing, and feedback-driven replanning across 247 boards.",
     "zh": "LLM agent 距离 PCB 布线工程师还有多远？让全局规划、原生布线与反馈重规划协同，在 247 块板上评估。"
   },
   "links": [
-    {"label": {"en": "Latest PDF", "zh": "最新 PDF"}, "url": "/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=5a04884"},
+    {"label": {"en": "Latest PDF", "zh": "最新 PDF"}, "url": "/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=d34af63"},
     {"label": {"en": "Paper · arXiv", "zh": "论文 · arXiv"}, "url": "https://arxiv.org/abs/2611.08175"},
     {"label": {"en": "Code", "zh": "项目代码"}, "url": "https://github.com/chip-ai-agent/PCBRouteAgent"},
     {"label": {"en": "Citation", "zh": "引用本文"}, "url": "#citation"},

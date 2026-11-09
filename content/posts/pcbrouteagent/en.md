@@ -188,7 +188,7 @@ Low per-board cost does not guarantee low cost per successful board. On D3-C, PC
 
 ## What do individual boards reveal?
 
-The [updated manuscript (PDF)](/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=5a04884) includes three case studies. They show how the framework uses model decisions and why board completion still falls short of the broader requirements of PCB engineering.
+The [updated manuscript (PDF)](/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=d34af63) includes three case studies. They show how the framework uses model decisions and why board completion still falls short of the broader requirements of PCB engineering.
 
 ### More routing from fewer model calls
 
@@ -244,7 +244,7 @@ The paper is available on [arXiv](https://arxiv.org/abs/2611.08175). Please use 
 
 ## Resources
 
-- [Latest manuscript PDF, including case studies](/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=5a04884)
+- [Latest manuscript PDF, including case studies](/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=d34af63)
 - [PCBRouteAgent paper · arXiv:2611.08175](https://arxiv.org/abs/2611.08175)
 - [PCBRouteAgent code](https://github.com/chip-ai-agent/PCBRouteAgent)
 - [PCBWorld: A Benchmark Environment for Engine-Grounded PCB Design Automation](https://arxiv.org/abs/2607.05915)

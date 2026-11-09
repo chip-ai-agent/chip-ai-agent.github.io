@@ -23,11 +23,11 @@
   <header class="research-header">
   <p class="eyebrow">Blog</p>
   <h1>PCBRouteAgent: How Close Are LLM Agents to Becoming PCB Routing Engineers?</h1>
-  <p class="research-authors">Yue Zhang¹* · Jilei Sun¹* · Liqiang Jing¹*† · Yijie Wei² · Ruohan Yang³</p><p class="research-affiliations">¹ The University of Texas at Dallas · ² Texas Instruments Inc. · ³ Iowa State University</p>
-  <p class="author-note">* Equal contribution. † Corresponding author.</p>
+  <p class="research-authors">Yue Zhang¹* · Jilei Sun¹* · Liqiang Jing¹*† · Yijie Wei²‡ · Ruohan Yang³</p><p class="research-affiliations">¹ The University of Texas at Dallas · ² Texas Instruments Inc. · ³ Iowa State University</p>
+  <p class="author-note">* Equal contribution. † Corresponding author. ‡ This work was conducted outside the author&#x27;s role at Texas Instruments Inc.</p>
   <p class="meta"><time datetime="2026-11-04">2026-11-04</time></p>
   <div class="post-tags"><span>PCB routing</span><span>AI agents</span><span>KiCad</span></div>
-  <div class="research-links"><a href="/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=5a04884">Latest PDF<span aria-hidden="true"> ↗</span></a><a href="https://arxiv.org/abs/2611.08175">Paper · arXiv<span aria-hidden="true"> ↗</span></a><a href="https://github.com/chip-ai-agent/PCBRouteAgent">Code<span aria-hidden="true"> ↗</span></a><a href="#citation">Citation<span aria-hidden="true"> ↓</span></a><a href="https://arxiv.org/abs/2607.05915">PCBWorld benchmark<span aria-hidden="true"> ↗</span></a></div>
+  <div class="research-links"><a href="/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=d34af63">Latest PDF<span aria-hidden="true"> ↗</span></a><a href="https://arxiv.org/abs/2611.08175">Paper · arXiv<span aria-hidden="true"> ↗</span></a><a href="https://github.com/chip-ai-agent/PCBRouteAgent">Code<span aria-hidden="true"> ↗</span></a><a href="#citation">Citation<span aria-hidden="true"> ↓</span></a><a href="https://arxiv.org/abs/2607.05915">PCBWorld benchmark<span aria-hidden="true"> ↗</span></a></div>
   </header>
   <div class="article-layout">
   <aside class="article-toc" aria-label="On this page"><p>On this page</p><div class="toc">
@@ -358,7 +358,7 @@
 <p>The token savings also hold when measured per connected target edge: <strong>11,374 → 202</strong> tokens on D2, <strong>22,079 → 1,972</strong> on D3-A, <strong>65,545 → 4,355</strong> on D3-B, and <strong>269,324 → 6,744</strong> on D3-C. This metric divides all input and output tokens by the total number of connected target edges in each split.</p>
 <p>Low per-board cost does not guarantee low cost per successful board. On D3-C, PCBRouteAgent costs $0.393 per board, but only one of ten Haiku boards passes; dividing the total cost by the number of passes gives <strong>$3.93 per clean-pass board</strong>. PCBWorld–Haiku has no clean-pass boards on D3-B or D3-C, so its cost per clean-pass board is undefined there. Improving reliable completion on large boards therefore remains important for both routing quality and efficiency.</p>
 <h2 id="what-do-individual-boards-reveal">What do individual boards reveal?</h2>
-<p>The <a href="/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=5a04884">updated manuscript (PDF)</a> includes three case studies. They show how the framework uses model decisions and why board completion still falls short of the broader requirements of PCB engineering.</p>
+<p>The <a href="/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=d34af63">updated manuscript (PDF)</a> includes three case studies. They show how the framework uses model decisions and why board completion still falls short of the broader requirements of PCB engineering.</p>
 <h3 id="more-routing-from-fewer-model-calls">More routing from fewer model calls</h3>
 <p>On the same D3-C board with <strong>Claude Haiku 5.5</strong>, PCBRouteAgent connects <strong>84 of 86 targets</strong>, while the PCBWorld interactive baseline connects <strong>10 of 86</strong>. This is an <strong>86.0 percentage-point increase in connection completion</strong>, not in clean-pass rate: the PCBRouteAgent board still has two unresolved connections.</p>
 <div class="case-metrics"><div><strong>10/86 → 84/86</strong><span>Connected targets</span></div><div><strong>403 → 5</strong><span>Model calls</span></div><div><strong>80.3%</strong><span>Fewer input tokens</span></div></div>
@@ -396,7 +396,7 @@
 <p><a href="/assets/research/pcbrouteagent/pcbrouteagent.bib">Download BibTeX</a></p>
 <h2 id="resources">Resources</h2>
 <ul>
-<li><a href="/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=5a04884">Latest manuscript PDF, including case studies</a></li>
+<li><a href="/assets/research/pcbrouteagent/PCBRouteAgent.pdf?v=d34af63">Latest manuscript PDF, including case studies</a></li>
 <li><a href="https://arxiv.org/abs/2611.08175">PCBRouteAgent paper · arXiv:2611.08175</a></li>
 <li><a href="https://github.com/chip-ai-agent/PCBRouteAgent">PCBRouteAgent code</a></li>
 <li><a href="https://arxiv.org/abs/2607.05915">PCBWorld: A Benchmark Environment for Engine-Grounded PCB Design Automation</a></li>

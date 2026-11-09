@@ -9,8 +9,8 @@ Current figures, shared by both language versions:
   (diagram revision `6c9a9b8`). The figure URLs include the source revision to refresh browser caches.
 - `case-1.png`, `case-2.png`, `case-3.png`: original case-study figures from
   `arxiv/fig/routeagent-case-{1,2,3}.png` at paper revision `5a04884`.
-- `PCBRouteAgent.pdf`: the locally compiled manuscript at revision `5a04884`,
-  including the main-text USB example and detailed appendix case studies.
+- `PCBRouteAgent.pdf`: the locally compiled manuscript at revision `d34af63`,
+  including the main-text USB example, detailed appendix case studies, and the outside-role author note for Yijie Wei.
   The article links to this PDF separately from the arXiv record.
 
 Store the finished images in this directory. Use root-relative paths such as
