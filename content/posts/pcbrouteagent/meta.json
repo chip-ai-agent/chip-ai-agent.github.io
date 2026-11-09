@@ -2,14 +2,13 @@
   "date": "2026-11-04",
   "draft": false,
   "authors": [
-    {"name": "Yue Zhang", "markers": "1*", "url": "https://skywalkerzhang.github.io/"},
-    {"name": "Jilei Sun", "markers": "1*", "url": "https://www.linkedin.com/in/jilei-sun-086326289"},
-    {"name": "Liqiang Jing", "markers": "1*†", "url": "https://liqiangjing.github.io/"},
-    {"name": "Yijie Wei", "markers": "2‡", "url": "https://www.linkedin.com/in/yijie-wei-4b335814a"},
+    {"name": "Yue Zhang", "markers": "1", "url": "https://skywalkerzhang.github.io/"},
+    {"name": "Jilei Sun", "markers": "1", "url": "https://www.linkedin.com/in/jilei-sun-086326289"},
+    {"name": "Liqiang Jing", "markers": "1", "url": "https://liqiangjing.github.io/"},
+    {"name": "Yijie Wei", "markers": "2", "url": "https://www.linkedin.com/in/yijie-wei-4b335814a"},
     {"name": "Ruohan Yang", "markers": "3", "url": null}
   ],
   "affiliations": ["¹ The University of Texas at Dallas", "² Texas Instruments Inc.", "³ Iowa State University"],
-  "author_note": {"en": "* Equal contribution. † Corresponding author. ‡ This work was conducted outside the author's role at Texas Instruments Inc.", "zh": "* 共同第一作者。† 通信作者。‡ 本工作在作者于 Texas Instruments Inc. 的职务之外完成。"},
   "tags": {"en": ["PCB routing", "AI agents", "KiCad"], "zh": ["PCB 布线", "AI agent", "KiCad"]},
   "summary": {
     "en": "How close are LLM agents to becoming PCB routing engineers? Global planning, native routing, and feedback-driven replanning across 247 boards.",

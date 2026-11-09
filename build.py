@@ -148,7 +148,8 @@ def build_post(site: dict, post: dict, lang: str) -> None:
     authors = ' · '.join(author_names)
     affiliations = " · ".join(html.escape(name) for name in post["affiliations"])
     byline = f'<p class="research-authors">{authors}</p><p class="research-affiliations">{affiliations}</p>' if authors else ""
-    author_note = html.escape(post['author_note'].get(lang, ''))
+    author_note_text = html.escape(post['author_note'].get(lang, ''))
+    author_note = f'<p class="author-note">{author_note_text}</p>' if author_note_text else ''
     resource_links = []
     for link in post['links']:
         label = html.escape(link['label'][lang])
@@ -166,7 +167,7 @@ def build_post(site: dict, post: dict, lang: str) -> None:
   <p class="eyebrow">{('Blog' if lang == 'en' else '博客')}</p>
   <h1>{html.escape(post[lang]['title'])}</h1>
   {byline}
-  <p class="author-note">{author_note}</p>
+{author_note}
   <p class="meta"><time datetime="{post['date']}">{post['date']}</time></p>
   <div class="post-tags">{tags}</div>
   <div class="research-links">{links}</div>
